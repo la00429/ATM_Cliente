@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Clase que representa la ventana principal de la aplicaci�n. Extiende JFrame y
  * contiene diferentes paneles para mostrar la interfaz de usuario.
@@ -62,8 +62,8 @@ public class JFrameSystem extends JFrame {
 	 * @param listenerMouse escuchador de mouse.
 	 */
 	private void initComponents(ActionListener listener, MouseAdapter listenerMouse) {
-		createUser = new JPanelCreateUser(listener, listenerMouse);
-		formStyleLearning = new JPanelForm(listener, listenerMouse);
+		createUser = new JPanelCreateUser(listener);
+		formStyleLearning = new JPanelForm(listener);
 		changePassword = new JChangePasswaord(listener, listenerMouse);
 		course = new JPanelCourse(listener, listenerMouse);
 		loginUser = new JPanelLogin(listener, listenerMouse);

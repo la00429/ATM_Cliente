@@ -14,9 +14,9 @@ import javax.swing.JLabel;
 
 // TODO: Auto-generated Javadoc
 /**
- * Panel para crear un nuevo usuario con campos como nombre, código, sexo,
- * contraseña, etc. Extiende JPanelStart para agregar funcionalidades
- * adicionales y mostrar información.
+ * Panel para crear un nuevo usuario con campos como nombre, cï¿½digo, sexo,
+ * contraseï¿½a, etc. Extiende JPanelStart para agregar funcionalidades
+ * adicionales y mostrar informaciï¿½n.
  */
 public class JPanelCreateUser extends JPanelStart {
 
@@ -50,10 +50,9 @@ public class JPanelCreateUser extends JPanelStart {
 	/**
 	 * Constructor de JPanelCreateUser.
 	 *
-	 * @param listener      ActionListener para manejar eventos del botón.
-	 * @param listenerMouse MouseAdapter para manejar eventos del mouse.
+	 * @param listener ActionListener para manejar eventos del botï¿½n.
 	 */
-	public JPanelCreateUser(ActionListener listener, MouseAdapter listenerMouse) {
+	public JPanelCreateUser(ActionListener listener) {
 		super(listener, listenerMouse);
 
 		initComponents2(listener, listenerMouse);
@@ -128,7 +127,7 @@ public class JPanelCreateUser extends JPanelStart {
 	 * @param gbc the gbc
 	 */
 	private void fourLine(GridBagConstraints gbc) {
-		this.code = new JLabel("Código");
+		this.code = new JLabel("Cï¿½digo");
 		this.code.setFont(new Font("Arial", Font.PLAIN, 32));
 		gbc.anchor = GridBagConstraints.FIRST_LINE_START;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -182,7 +181,7 @@ public class JPanelCreateUser extends JPanelStart {
 	 * @param gbc the gbc
 	 */
 	private void eightLine(GridBagConstraints gbc) {
-		this.password = new JLabel("Contraseña");
+		this.password = new JLabel("Contraseï¿½a");
 		this.password.setFont(new Font("Arial", Font.PLAIN, 32));
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbc.insets = new Insets(20, 30, 0, 0);

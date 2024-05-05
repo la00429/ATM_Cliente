@@ -30,10 +30,10 @@ public class JPanelStart extends JPanel {
      * @param listener the listener
      * @param listenerMouse the listener mouse
      */
-    public JPanelStart(ActionListener listener, MouseAdapter listenerMouse) {
+    public JPanelStart(ActionListener listener) {
         this.setBackground(new Color(255, 255, 255));
         this.setLayout(new GridBagLayout());
-        initComponents(listener, listenerMouse);
+        initComponents(listener);
         this.setVisible(true);
     }
 
@@ -43,7 +43,7 @@ public class JPanelStart extends JPanel {
      * @param listener the listener
      * @param listenerMouse the listener mouse
      */
-    private void initComponents(ActionListener listener, MouseAdapter listenerMouse) {
+    private void initComponents(ActionListener listener) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;

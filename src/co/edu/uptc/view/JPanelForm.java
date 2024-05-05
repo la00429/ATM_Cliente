@@ -30,12 +30,11 @@ public class JPanelForm extends JPanelStart {
 	 * Instantiates a new j panel form.
 	 *
 	 * @param listener the listener
-	 * @param listenerMouse the listener mouse
 	 */
-	public JPanelForm(ActionListener listener, MouseAdapter listenerMouse) {
-		super(listener, listenerMouse);
+	public JPanelForm(ActionListener listener) {
+		super(listener);
 
-		initComponents2(listener, listenerMouse);
+		initComponents2(listener);
 		this.setVisible(false);
 	}
 
@@ -45,7 +44,7 @@ public class JPanelForm extends JPanelStart {
 	 * @param listener the listener
 	 * @param listenerMouse the listener mouse
 	 */
-	private void initComponents2(ActionListener listener, MouseAdapter listenerMouse) {
+	private void initComponents2(ActionListener listener) {
 		getInfoPanel().setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		getDimensionPanelLeft(gbc);
@@ -117,10 +116,10 @@ public class JPanelForm extends JPanelStart {
 	 */
 	private void addTextPane() {
 		this.paneDataStyles = new JTextPaneUPTC();
-		String paragraph = "<html><p style='font-family:Arial; font-size:20px;'> <b>Adaptador:</b> Es el estilo de aprendizaje que se basa en la experiencia concreta y la experimentación activa. Las personas con este estilo son prácticas, flexibles, intuitivas y orientadas a la acción. Les gusta resolver problemas, asumir riesgos y aprender haciendo.</p>"
-				+ "<p style='font-family:Arial; font-size:20px;'> <b>Asimilador:</b> Es el estilo de aprendizaje que se basa en la observación reflexiva y la conceptualización abstracta. Las personas con este estilo son lógicas, racionales, analíticas y teóricas. Les gusta estudiar, investigar, planificar y crear modelos.</p>"
-				+ "<p style='font-family:Arial; font-size:20px;'> <b>Divergente:</b> Es el estilo de aprendizaje que se basa en la experiencia concreta y la observación reflexiva. Las personas con este estilo son creativas, imaginativas, emocionales y sensibles. Les gusta explorar, generar ideas, trabajar en grupo y expresarse.</p>"
-				+ "<p style='font-family:Arial; font-size:20px;'> <b>Convergente:</b> Es el estilo de aprendizaje que se basa en la conceptualización abstracta y la experimentación activa. Las personas con este estilo son prácticas, eficientes, objetivas y orientadas a los resultados. Les gusta aplicar lo que saben, tomar decisiones, resolver problemas y encontrar soluciones.</p></html>";
+		String paragraph = "<html><p style='font-family:Arial; font-size:20px;'> <b>Adaptador:</b> Es el estilo de aprendizaje que se basa en la experiencia concreta y la experimentaciï¿½n activa. Las personas con este estilo son prï¿½cticas, flexibles, intuitivas y orientadas a la acciï¿½n. Les gusta resolver problemas, asumir riesgos y aprender haciendo.</p>"
+				+ "<p style='font-family:Arial; font-size:20px;'> <b>Asimilador:</b> Es el estilo de aprendizaje que se basa en la observaciï¿½n reflexiva y la conceptualizaciï¿½n abstracta. Las personas con este estilo son lï¿½gicas, racionales, analï¿½ticas y teï¿½ricas. Les gusta estudiar, investigar, planificar y crear modelos.</p>"
+				+ "<p style='font-family:Arial; font-size:20px;'> <b>Divergente:</b> Es el estilo de aprendizaje que se basa en la experiencia concreta y la observaciï¿½n reflexiva. Las personas con este estilo son creativas, imaginativas, emocionales y sensibles. Les gusta explorar, generar ideas, trabajar en grupo y expresarse.</p>"
+				+ "<p style='font-family:Arial; font-size:20px;'> <b>Convergente:</b> Es el estilo de aprendizaje que se basa en la conceptualizaciï¿½n abstracta y la experimentaciï¿½n activa. Las personas con este estilo son prï¿½cticas, eficientes, objetivas y orientadas a los resultados. Les gusta aplicar lo que saben, tomar decisiones, resolver problemas y encontrar soluciones.</p></html>";
 		this.paneDataStyles.setText(paragraph);
 		this.paneDataStyles.setColorBack(Color.LIGHT_GRAY);
 
@@ -139,7 +138,7 @@ public class JPanelForm extends JPanelStart {
 		gbc.gridwidth = 1; // Ancho del JComboBox
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.anchor = GridBagConstraints.CENTER;
-		gbc.insets = new Insets(0, 236, 47, 0); // Ajusta los márgenes según lo necesites
+		gbc.insets = new Insets(0, 236, 47, 0); // Ajusta los mï¿½rgenes segï¿½n lo necesites
 		getInfoPanel().add(styles, gbc);
 
 		getInfoPanel().getButton().setText("Registrarme");
@@ -147,7 +146,7 @@ public class JPanelForm extends JPanelStart {
 		getInfoPanel().getButton().addActionListener(listener);
 		gbc.gridx = 1;
 		gbc.gridwidth = GridBagConstraints.REMAINDER; // Resto del ancho disponible
-		gbc.insets = new Insets(0, 5, 47, 140); // Ajusta los márgenes según lo necesites
+		gbc.insets = new Insets(0, 5, 47, 140); // Ajusta los mï¿½rgenes segï¿½n lo necesites
 		getInfoPanel().add(getInfoPanel().getButton(), gbc);
 
 	}
