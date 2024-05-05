@@ -9,8 +9,6 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
-import co.edu.uptc.config.Message;
-
 // TODO: Auto-generated Javadoc
 /**
  * Clase que representa la ventana principal de la aplicaci�n. Extiende JFrame y
