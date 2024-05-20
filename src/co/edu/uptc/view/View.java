@@ -1,15 +1,12 @@
 package co.edu.uptc.view;
 
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-
-import co.edu.uptc.presenter.Contracts;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class View.
  */
-public class View implements Contracts.IView {
+public class View {
 	
 	/** The frame app. */
 	private JFrameSystem frameApp;
@@ -18,10 +15,9 @@ public class View implements Contracts.IView {
 	 * Instantiates a new view.
 	 *
 	 * @param listener the listener
-	 * @param listenerMouse the listener mouse
 	 */
-	public View(ActionListener listener, MouseAdapter listenerMouse) {
-		frameApp = new JFrameSystem(listener, listenerMouse);
+	public View(ActionListener listener ) {
+		frameApp = new JFrameSystem(listener);
 	}
 
 	/**

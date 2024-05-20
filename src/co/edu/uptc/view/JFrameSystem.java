@@ -44,13 +44,13 @@ public class JFrameSystem extends JFrame {
 	 * @param listener      ActionListener para manejar eventos de botones.
 	 * @param listenerMouse MouseAdapter para manejar eventos de rat�n.
 	 */
-	public JFrameSystem(ActionListener listener, MouseAdapter listenerMouse) {
+	public JFrameSystem(ActionListener listener) {
 		super("Aprendamos Juntos");
 		this.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width,
 				Toolkit.getDefaultToolkit().getScreenSize().height));
 		this.setBackground(new Color(255, 255, 255));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		initComponents(listener, listenerMouse);
+		initComponents(listener);
 		pack();
 		this.setVisible(true);
 	}
@@ -59,20 +59,18 @@ public class JFrameSystem extends JFrame {
 	 * Inicializa los atributos (paneles) de la clase.
 	 * 
 	 * @param listener      escuchador de eventos.
-	 * @param listenerMouse escuchador de mouse.
 	 */
-	private void initComponents(ActionListener listener, MouseAdapter listenerMouse) {
+	private void initComponents(ActionListener listener) {
 		createUser = new JPanelCreateUser(listener);
 		formStyleLearning = new JPanelForm(listener);
-		changePassword = new JChangePasswaord(listener, listenerMouse);
-		course = new JPanelCourse(listener, listenerMouse);
-		loginUser = new JPanelLogin(listener, listenerMouse);
+		changePassword = new JChangePasswaord(listener);
+		course = new JPanelCourse(listener);
+		loginUser = new JPanelLogin(listener);
 		this.add(loginUser);
 	}
 
 	/**
 	 * Muestra un mensaje en un di�logo emergente.
-	 *
 	 * @param message El mensaje a mostrar en el di�logo.
 	 */
 	public void showMessageInfo(String message) {

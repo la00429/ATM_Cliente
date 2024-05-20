@@ -53,9 +53,9 @@ public class JPanelCreateUser extends JPanelStart {
 	 * @param listener ActionListener para manejar eventos del bot�n.
 	 */
 	public JPanelCreateUser(ActionListener listener) {
-		super(listener, listenerMouse);
+		super(listener);
 
-		initComponents2(listener, listenerMouse);
+		initComponents2(listener);
 		this.setVisible(false);
 	}
 
@@ -63,9 +63,8 @@ public class JPanelCreateUser extends JPanelStart {
 	 * Inits the components 2.
 	 *
 	 * @param listener the listener
-	 * @param listenerMouse the listener mouse
 	 */
-	private void initComponents2(ActionListener listener, MouseAdapter listenerMouse) {
+	private void initComponents2(ActionListener listener) {
 		getInfoPanel().setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		firstLine(gbc);

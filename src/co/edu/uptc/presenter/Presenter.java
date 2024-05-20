@@ -1,391 +1,381 @@
 package co.edu.uptc.presenter;
 
+import co.edu.uptc.model.Student;
+import co.edu.uptc.model.User;
+import co.edu.uptc.net.Connection;
+import co.edu.uptc.net.Request;
+import co.edu.uptc.net.Responsive;
+import co.edu.uptc.view.View;
+import com.google.gson.Gson;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import co.edu.uptc.config.Config;
-import co.edu.uptc.config.Message;
-import co.edu.uptc.model.SystemPrincipal;
-import co.edu.uptc.model.User;
-import co.edu.uptc.persistence.LoadData;
-import co.edu.uptc.view.View;
+public class Presenter extends MouseAdapter implements ActionListener {
 
-// TODO: Auto-generated Javadoc
-/**
- * Clase Presenter que actúa como controlador en el patrón MVC. Se encarga de manejar la lógica de negocio
- * y la interacción entre la vista y el modelo.
- */
-public class Presenter extends MouseAdapter implements ActionListener, Contracts.IPresenter {
-	
-	/** The view. */
-	private View view;
-	
-	/** The s principal. */
-	private SystemPrincipal sPrincipal;
-	
-	/** The load data. */
-	private LoadData loadData;
+    private Connection connection;
+    private View view;
 
-	/**
-	 * Instantiates a new presenter.
-	 */
-	public Presenter() {
-		this.loadData = new LoadData();
-		this.sPrincipal = new SystemPrincipal();
-		this.view = new View(this, this);
-	}
+    public Presenter() {
+        try {
+            this.connection = new Connection();
+            this.view = new View(this);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	/**
-	 * Load data.
-	 */
-	public void loadData() {
-		loadProperties();
-		loadJSON();
-		loadSystem();
+    public void loadData() {
+        loadStyles();
+        loadGender();
+    }
 
-	}
+    private void loadStyles() {
+        try {
+            connection.send(new Gson().toJson(new Request("Load_Styles")));
+            view.getFrameApp().loadComboStyles((ArrayList<String>) new Gson().fromJson(connection.receive(), Responsive.class).getStylesLearning());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-	/**
-	 * Load properties.
-	 */
-	private void loadProperties() {
-		Config config = new Config();
-		config.loadMessages();
-		this.view.getFrameApp().revalidate();
-		this.view.getFrameApp().repaint();
-	}
+    private void loadGender() {
+        try {
+            connection.send(new Gson().toJson(new Request("Gender")));
+            view.getFrameApp().loadComboGender((ArrayList<String>) new Gson().fromJson(connection.receive(), Responsive.class).getGenders());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-	/**
-	 * Load JSON.
-	 */
-	private void loadJSON() {
-		sPrincipal.setUsers(loadData.readUsersJSON());
-	}
+    public void start() {
+        try {
+            establishConnection();
+            loadData();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-	/**
-	 * Load system.
-	 */
-	private void loadSystem() {
-		loadUsers();
-		loadGender();
-		loadStyles();
-	}
+    public void actionPerformed(ActionEvent e) {
+        try {
+        String source = e.getActionCommand();
+        if (source.equals("Login")) {
+            verificationLogin("Login");
+        }
 
-	/**
-	 * Load styles.
-	 */
-	private void loadStyles() {
-		view.getFrameApp().loadComboStyles(loadData.readTxt(Message.PATH_STYLES));
-	}
+        if (source.equals("Forgot")) {
+            forgotPassword();
+        }
 
-	/**
-	 * Load gender.
-	 */
-	private void loadGender() {
-		view.getFrameApp().loadComboGender(loadData.readTxt(Message.PATH_GENDER));
-	}
+        if (source.equals("Next")) {
+            createUserData();
+        }
 
-	/**
-	 * Load users.
-	 */
-	private void loadUsers() {
-		ArrayList<String> sites = loadData.readTxt(Message.PATH_SITES);
-		for (String infoCourse : sites) {
-			sPrincipal.addCourse(infoCourse);
-		}
-	}
+        if (source.equals("Record")) {
+            loadDataCourse();
+        }
 
-	/**
-	 * Action performed.
-	 *
-	 * @param e the e
-	 */
-	
-	public void actionPerformed(ActionEvent e) {
-		String source = e.getActionCommand();
-		if (source.equals("Login")) {
-			verificationLogin();
-		}
+        if (source.equals("Accept")) {
+            updatePanelChangePasswaord();
+        }
 
-		if (source.equals("Forgot")) {
-			forgotPassword();
-		}
+        if (source.equals("Create")) {
+            changeToCreateUser();
+        }
 
-		if (source.equals("Next")) {
-			createUserData();
-		}
+        if (source.equals("Logout")) {
+            logOutSystem();
+        }
 
-		if (source.equals("Record")) {
-			loadDataCourse();
-		}
+        if (source.equals("Help")) {
+            try {
+                connection.send("Help");
+                showData(connection.receive());
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
 
-		if (source.equals("Accept")) {
-			updatePanelChangePasswaord();
-		}
+        }
 
-		if (source.equals("Create")) {
-			changeToCreateUser();
-		}
+        if (source.equals("Us")) {
 
-		if (source.equals("Logout")) {
-			logOutSystem();
-		}
+            showData();
+        }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 
-		if (source.equals("Help")) {
-			showData(Message.HELP);
+    private void establishConnection() throws IOException {
+        try {
+            connection.connect();
+            view.showData(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
+            connection.send(new Gson().toJson(new Responsive("Client connected to server")));
+        } catch (IOException e) {
+            view.showData(e.getMessage());
+        }
+    }
 
-		}
+    public void verificationLogin(String messageToServer) {
+        String codeUser = view.getFrameApp().getLoginUser().getUserInput();
+        String passwordUser = view.getFrameApp().getLoginUser().getPasswordInput();
+        try {
+            chooseUser(codeUser, passwordUser);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-		if (source.equals("Us")) {
-			showData(Message.ABOUT_US);
-		}
-	}
+    private void chooseUser(String codeUser, String passwordUser) throws IOException {
+        if (codeUser.equals("ADMIN") && passwordUser.equals("ADMIN")) {
+            connection.send(new Gson().toJson(new Request("Login", codeUser, passwordUser, "ADMIN")));
+            showUserData(codeUser, passwordUser);
+        } else {
+            connection.send(new Gson().toJson(new Request("Login", codeUser, passwordUser, "student")));
+            showUserData(codeUser, passwordUser);
+        }
+    }
 
-	/**
-	 * Navega entre el panel del curso y vuelve a login.
-	 */
-	public void logOutSystem() {
-		view.accessLogin();
-	}
+    private void showUserData(String codeUser, String passwordUser) throws IOException {
+        if (new Gson().fromJson(connection.receive(), Responsive.class).getVerification()) {
+            loginAcess(codeUser);
+        } else {
+            loginMessage(codeUser, passwordUser);
+        }
+    }
 
-	/**
-	 * Navegación entre el panel login y el de creación de usuario.
-	 */
-	public void changeToCreateUser() {
-		view.accessCreate();
-	}
+    /**
+     * Realiza la acciï¿½n para olvido de contraseï¿½a.
+     */
+    public void forgotPassword() {
+        view.accessChange();
+    }
 
-	/**
-	 * Actualiza el cambio de contraseña.
-	 */
-	public void updatePanelChangePasswaord() {
-		String codeUser = view.getFrameApp().getChangePassword().getUserInput();
-		String passwordUserNew = view.getFrameApp().getChangePassword().getPasswordInput();
-		if (!codeUser.isEmpty() && !passwordUserNew.isEmpty()) {
-			verificationUser(codeUser);
-		} else {
-			view.getFrameApp().showMessageInfo(Message.ERROR_NULL);
-		}
-	}
 
-	/**
-	 * Verification user.
-	 *
-	 * @param codeUser the code user
-	 */
-	private void verificationUser(String codeUser) {
-		if (sPrincipal.getUsers().containsKey(codeUser)) {
-			updateStatePasword(codeUser);
-		} else {
-			view.getFrameApp().showMessageInfo(Message.ERROR_NO_FOUND);
-		}
-	}
+    /**
+     * mï¿½todo para navegar en la creaciï¿½n de usuario.
+     */
+    public void createUserData() throws IOException {
+        String name = view.getFrameApp().getCreateUser().getName();
+        String gender = view.getFrameApp().getCreateUser().getSelectedGender();
+        String code = view.getFrameApp().getCreateUser().getCode();
+        String password = view.getFrameApp().getCreateUser().getPasswordInput();
+        createUserMessage(name, gender, code, password);
 
-	/**
-	 * Update state pasword.
-	 *
-	 * @param codeUser the code user
-	 */
-	private void updateStatePasword(String codeUser) {
-		changeDataUser(codeUser);
-		view.accessLoginChange();
-		view.getFrameApp().getChangePassword().cleanPanel();
-	}
+    }
 
-	/**
-	 * Change data user.
-	 *
-	 * @param codeUser the code user
-	 */
-	private void changeDataUser(String codeUser) {
-		sPrincipal.changePassword(codeUser, view.getFrameApp().getChangePassword().getPasswordInput());
-		loadData.writeUsersJSON(sPrincipal.getUsers());
-	}
+    private void createUserMessage(String name, String gender, String code, String password) throws IOException {
+        if (name.isEmpty() || code.isEmpty() || gender.isEmpty() || password.isEmpty()) {
+            try {
+                connection.send(new Gson().toJson(new Request("Error_Null")));
+                showData(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            connection.send(new Gson().toJson(new Request("Error_Twin")));
+            Responsive response = new Gson().fromJson(connection.receive(), Responsive.class);
+            if (response.getVerification()){
+                showData(response.getMessage());
+            } else {
+                createUserNext();
+            }
+        }
+    }
 
-	/**
-	 * Cargar los datos correspondientes al curso.
-	 */
-	public void loadDataCourse() {
-		getDataCourse();
-		getDataUser();
-		cleanDataPanel();
-	}
 
-	/**
-	 * Gets the data course.
-	 *
-	 * @return the data course
-	 */
-	private void getDataCourse() {
-		String courseSelect = view.getFrameApp().selectCourse();
-		String nameUser = view.getFrameApp().getCreateUser().getName();
-		loadCourse(courseSelect, nameUser);
-	}
+//heeeeere
 
-	/**
-	 * Load course.
-	 *
-	 * @param courseSelect the course select
-	 * @param nameUser the name user
-	 */
-	private void loadCourse(String courseSelect, String nameUser) {
-		view.getFrameApp().setCourse(sPrincipal.selectCourse(courseSelect));
-		view.getFrameApp().setNameUser(nameUser);
-		view.accessCourseCreate();
-	}
 
-	/**
-	 * Gets the data user.
-	 *
-	 * @return the data user
-	 */
-	private void getDataUser() {
-		String name = view.getFrameApp().getCreateUser().getName();
-		String code = view.getFrameApp().getCreateUser().getCode();
-		String gender = view.getFrameApp().getCreateUser().getSelectedGender();
-		String password = view.getFrameApp().getCreateUser().getPasswordInput();
-		String styleLearning = view.getFrameApp().getFormStyleLearning().getSelectStyle();
-		loadDataUser(name, code, gender, password, styleLearning);
-	}
+    /**
+     * Navega entre el panel del curso y vuelve a login.
+     */
+    public void logOutSystem() {
+        view.accessLogin();
+    }
 
-	/**
-	 * Load data user.
-	 *
-	 * @param name the name
-	 * @param code the code
-	 * @param gender the gender
-	 * @param password the password
-	 * @param styleLearning the style learning
-	 */
-	private void loadDataUser(String name, String code, String gender, String password, String styleLearning) {
-		sPrincipal.addUser(code, name, gender, password, styleLearning);
-		loadData.writeUsersJSON(sPrincipal.getUsers());
-	}
+    /**
+     * Navegaciï¿½n entre el panel login y el de creaciï¿½n de usuario.
+     */
+    public void changeToCreateUser() {
+        view.accessCreate();
+    }
 
-	/**
-	 * Clean data panel.
-	 */
-	private void cleanDataPanel() {
-		view.getFrameApp().getCreateUser().cleanPanel();
-		view.getFrameApp().getFormStyleLearning().cleanPanel();
-	}
+    /**
+     * Actualiza el cambio de contraseï¿½a.
+     */
+    public void updatePanelChangePasswaord() {
+        String codeUser = view.getFrameApp().getChangePassword().getUserInput();
+        String passwordUserNew = view.getFrameApp().getChangePassword().getPasswordInput();
+        if (!codeUser.isEmpty() && !passwordUserNew.isEmpty()) {
+            verificationUser(codeUser);
+        } else {
+            view.getFrameApp().showMessageInfo(Message.ERROR_NULL);
+        }
+    }
 
-	/**
-	 * método para navegar en la creación de usuario.
-	 */
-	public void createUserData() {
-		String name = view.getFrameApp().getCreateUser().getName();
-		String code = view.getFrameApp().getCreateUser().getCode();
-		String gender = view.getFrameApp().getCreateUser().getSelectedGender();
-		String password = view.getFrameApp().getCreateUser().getPasswordInput();
-		createUserMessage(name, code, gender, password);
-	}
+    /**
+     * Verification user.
+     *
+     * @param codeUser the code user
+     */
+    private void verificationUser(String codeUser) {
+        if (sPrincipal.getUsers().containsKey(codeUser)) {
+            updateStatePasword(codeUser);
+        } else {
+            view.getFrameApp().showMessageInfo(Message.ERROR_NO_FOUND);
+        }
+    }
 
-	/**
-	 * Creates the user message.
-	 *
-	 * @param name the name
-	 * @param code the code
-	 * @param gender the gender
-	 * @param password the password
-	 */
-	private void createUserMessage(String name, String code, String gender, String password) {
-		if (name.isEmpty() || code.isEmpty() || gender.isEmpty() || password.isEmpty()) {
-			showData(Message.ERROR_NULL);
-		} else {
-			if (sPrincipal.getUsers().containsKey(code)) {
-				showData(Message.ERROR_TWIN);
-			} else {
-				createUserNext();
-			}
-		}
-	}
+    /**
+     * Update state pasword.
+     *
+     * @param codeUser the code user
+     */
+    private void updateStatePasword(String codeUser) {
+        changeDataUser(codeUser);
+        view.accessLoginChange();
+        view.getFrameApp().getChangePassword().cleanPanel();
+    }
 
-	/**
-	 * Creates the user next.
-	 */
-	private void createUserNext() {
-		view.accessForm();
-	}
+    /**
+     * Change data user.
+     *
+     * @param codeUser the code user
+     */
+    private void changeDataUser(String codeUser) {
+        sPrincipal.changePassword(codeUser, view.getFrameApp().getChangePassword().getPasswordInput());
+        loadData.writeUsersJSON(sPrincipal.getUsers());
+    }
 
-	/**
-	 * Realiza la acción para olvido de contraseña.
-	 */
-	public void forgotPassword() {
-		view.accessChange();
-	}
+    /**
+     * Cargar los datos correspondientes al curso.
+     */
+    public void loadDataCourse() throws IOException {
+        getDataCourse();
+        getDataUser();
+        cleanDataPanel();
+    }
 
-	/**
-	 * Realiza la verificación del inicio de sesión.
-	 */
-	public void verificationLogin() {
-		String codeUser = view.getFrameApp().getLoginUser().getUserInput();
-		String passwordUser = view.getFrameApp().getLoginUser().getPasswordInput();
-		boolean searchUsers = sPrincipal.verificationUser(codeUser, passwordUser);
-		if (searchUsers == true) {
-			loginAcess(codeUser);
-		} else {
-			loginMessage(codeUser, passwordUser);
-		}
-	}
+    /**
+     * Gets the data course.
+     *
+     * @return the data course
+     */
+    private void getDataCourse() {
+        String courseSelect = view.getFrameApp().selectCourse();
+        String nameUser = view.getFrameApp().getCreateUser().getName();
+        loadCourse(courseSelect, nameUser);
+    }
 
-	/**
-	 * Login acess.
-	 *
-	 * @param codeUser the code user
-	 */
-	private void loginAcess(String codeUser) {
-		view.getFrameApp().stateLoginUser(false);
-		showName(codeUser);
-		selectCourse(codeUser);
-		
-		view.accessCourseCreate();
-		view.getFrameApp().getLoginUser().cleanPanel();
-	}
+    /**
+     * Load course.
+     *
+     * @param courseSelect the course select
+     * @param nameUser     the name user
+     */
+    private void loadCourse(String courseSelect, String nameUser) {
 
-	/**
-	 * Login message.
-	 *
-	 * @param codeUser the code user
-	 * @param passwordUser the password user
-	 */
-	private void loginMessage(String codeUser, String passwordUser) {
-		if (codeUser.isEmpty() || passwordUser.isEmpty()) {
-			showData(Message.ERROR_NULL);
-		} else {
-			showData(Message.ERROR_NO_FOUND);
-		}
-	}
+        view.getFrameApp().setCourse(sPrincipal.selectCourse(courseSelect));
+        view.getFrameApp().setNameUser(nameUser);
+        view.accessCourseCreate();
+    }
 
-	/**
-	 * Select course.
-	 *
-	 * @param codeUser the code user
-	 */
-	private void selectCourse(String codeUser) {
-		view.getFrameApp().getCourse().getWebCourse().loadPage(sPrincipal.selectCourse(sPrincipal.showUser(codeUser).getStyleLearning()));
-	}
+    /**
+     * Gets the data user.
+     *
+     * @return the data user
+     */
+    private void getDataUser() throws IOException {
+        String name = view.getFrameApp().getCreateUser().getName();
+        String gender = view.getFrameApp().getCreateUser().getSelectedGender();
+        String styleLearning = view.getFrameApp().getFormStyleLearning().getSelectStyle();
+        String code = view.getFrameApp().getCreateUser().getCode();
+        String password = view.getFrameApp().getCreateUser().getPasswordInput();
+        loadDataUser(name,gender,styleLearning, password, code);
+    }
 
-	/**
-	 * Show name.
-	 *
-	 * @param codeUser the code user
-	 */
-	private void showName(String codeUser) {
-		view.getFrameApp().getCourse().setNameUser(sPrincipal.showUser(codeUser).getName());
-	}
+    /**
+     * Load data user.
+     *
+     * @param name          the name
+     * @param code          the code
+     * @param gender        the gender
+     * @param password      the password
+     * @param styleLearning the style learning
+     */
+    private void loadDataUser(String name,String gender,String styleLearning,  String code, String password ) throws IOException {
+        connection.send(new Gson().toJson(new Request("Create_User", new Student(name,gender,styleLearning, new User(code, password)))));
+        showData(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
+    }
 
-	/**
-	 * Método para mostrar mensajes dentro de los JDialogs.
-	 *
-	 * @param message el mensaje qu quiero que se muestre.
-	 */
-	public void showData(String message) {
-		view.showData(message);
-	}
+    /**
+     * Clean data panel.
+     */
+    private void cleanDataPanel() {
+        view.getFrameApp().getCreateUser().cleanPanel();
+        view.getFrameApp().getFormStyleLearning().cleanPanel();
+    }
+
+
+    /**
+     * Creates the user next.
+     */
+    private void createUserNext() {
+        view.accessForm();
+    }
+
+
+    /**
+     * Login acess.
+     *
+     * @param codeUser the code user
+     */
+    private void loginAcess(String codeUser) throws IOException {
+        view.getFrameApp().stateLoginUser(false);
+        showName(codeUser);
+        selectCourse(codeUser);
+        view.accessCourseCreate();
+        view.getFrameApp().getLoginUser().cleanPanel();
+    }
+
+    /**
+     * Login message.
+     *
+     * @param codeUser     the code user
+     * @param passwordUser the password user
+     */
+    private void loginMessage(String codeUser, String passwordUser) throws IOException {
+        if (codeUser.isEmpty() || passwordUser.isEmpty()) {
+            connection.send(new Gson().toJson(new Request("Error_Null")));
+            showData(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
+        } else {
+            connection.send(new Gson().toJson(new Request("Error_No_Found")));
+            showData(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
+        }
+    }
+
+    private void selectCourse(String codeUser) throws IOException {
+        connection.send(new Gson().toJson(new Request("Show_Course", codeUser, 1)));
+        view.getFrameApp().getCourse().getWebCourse().loadPage(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
+    }
+
+    private void showName(String codeUser) throws IOException {
+        connection.send(new Gson().toJson(new Request("Show_Name", codeUser, 1)));
+        view.getFrameApp().getCourse().setNameUser(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
+    }
+
+    /**
+     * Mï¿½todo para mostrar mensajes dentro de los JDialogs.
+     *
+     * @param message el mensaje qu quiero que se muestre.
+     */
+    public void showData(String message) {
+        view.showData(message);
+    }
 
 }

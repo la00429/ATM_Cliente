@@ -34,12 +34,11 @@ public class JChangePasswaord extends JPanelStart {
 	 * Instantiates a new j change passwaord.
 	 *
 	 * @param listener the listener
-	 * @param listenerMouse the listener mouse
 	 */
-	public JChangePasswaord(ActionListener listener, MouseAdapter listenerMouse) {
-		super(listener, listenerMouse);
+	public JChangePasswaord(ActionListener listener) {
+		super(listener);
 
-		initComponents2(listener, listenerMouse);
+		initComponents2(listener);
 		this.setVisible(false);
 	}
 
@@ -47,9 +46,8 @@ public class JChangePasswaord extends JPanelStart {
 	 * Inits the components 2.
 	 *
 	 * @param listener the listener
-	 * @param listenerMouse the listener mouse
 	 */
-	private void initComponents2(ActionListener listener, MouseAdapter listenerMouse) {
+	private void initComponents2(ActionListener listener){
 		getInfoPanel().setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		firstLine(gbc);
@@ -66,7 +64,7 @@ public class JChangePasswaord extends JPanelStart {
 	 * @param gbc the gbc
 	 */
 	private void firstLine(GridBagConstraints gbc) {
-		getInfoPanel().getTitle().setText("Cambiar contraseña");
+		getInfoPanel().getTitle().setText("Cambiar contraseï¿½a");
 		getInfoPanel().getTitle().setFont(new Font("Arial", Font.BOLD, 64));
 		gbc.anchor = GridBagConstraints.NORTH;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -80,7 +78,7 @@ public class JChangePasswaord extends JPanelStart {
 	 * @param gbc the gbc
 	 */
 	private void secondLine(GridBagConstraints gbc) {
-		this.code = new JLabel("Código");
+		this.code = new JLabel("Cï¿½digo");
 		this.code.setFont(new Font("Arial", Font.PLAIN, 32));
 		gbc.anchor = GridBagConstraints.FIRST_LINE_START;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -108,7 +106,7 @@ public class JChangePasswaord extends JPanelStart {
 	 * @param gbc the gbc
 	 */
 	private void fourLine(GridBagConstraints gbc) {
-		this.password = new JLabel("Contraseña");
+		this.password = new JLabel("Contraseï¿½a");
 		this.password.setFont(new Font("Arial", Font.PLAIN, 32));
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbc.insets = new Insets(30, 126, 0, 0);

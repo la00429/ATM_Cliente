@@ -40,11 +40,10 @@ public class JPanelLogin extends JPanelStart {
 	 * Instantiates a new j panel login.
 	 *
 	 * @param listener the listener
-	 * @param listenerMouse the listener mouse
 	 */
-	public JPanelLogin(ActionListener listener, MouseAdapter listenerMouse) {
-		super(listener, listenerMouse);
-		initComponents2(listener, listenerMouse);
+	public JPanelLogin(ActionListener listener ) {
+		super(listener);
+		initComponents2(listener);
 		this.setVisible(true);
 	}
 
@@ -52,9 +51,8 @@ public class JPanelLogin extends JPanelStart {
 	 * Inits the components 2.
 	 *
 	 * @param listener the listener
-	 * @param listenerMouse the listener mouse
 	 */
-	private void initComponents2(ActionListener listener, MouseAdapter listenerMouse) {
+	private void initComponents2(ActionListener listener) {
 		getInfoPanel().setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		firstLine(gbc);
@@ -73,7 +71,7 @@ public class JPanelLogin extends JPanelStart {
 	 * @param gbc the gbc
 	 */
 	private void firstLine(GridBagConstraints gbc) {
-		getInfoPanel().getTitle().setText("Iniciar sesión");
+		getInfoPanel().getTitle().setText("Iniciar sesiï¿½n");
 		getInfoPanel().getTitle().setFont(new Font("Arial", Font.BOLD, 64));
 		gbc.anchor = GridBagConstraints.NORTH;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -87,7 +85,7 @@ public class JPanelLogin extends JPanelStart {
 	 * @param gbc the gbc
 	 */
 	private void secondLine(GridBagConstraints gbc) {
-		this.user = new JLabel("Código");
+		this.user = new JLabel("Cï¿½digo");
 		this.user.setFont(new Font("Arial", Font.PLAIN, 32));
 		gbc.anchor = GridBagConstraints.FIRST_LINE_START;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -115,7 +113,7 @@ public class JPanelLogin extends JPanelStart {
 	 * @param gbc the gbc
 	 */
 	private void fourLine(GridBagConstraints gbc) {
-		this.password = new JLabel("Contraseña");
+		this.password = new JLabel("Contraseï¿½a");
 		this.password.setFont(new Font("Arial", Font.PLAIN, 32));
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbc.insets = new Insets(30, 30, 0, 0);
@@ -142,7 +140,7 @@ public class JPanelLogin extends JPanelStart {
 	 * @param gbc the gbc
 	 */
 	private void sixLine(ActionListener listener, GridBagConstraints gbc) {
-		getInfoPanel().getButton().setText("Iniciar sesión");
+		getInfoPanel().getButton().setText("Iniciar sesiï¿½n");
 		getInfoPanel().getButton().setActionCommand("Login");
 		getInfoPanel().getButton().addActionListener(listener);
 		gbc.insets = new Insets(70, 30, 0, 0);
@@ -158,7 +156,7 @@ public class JPanelLogin extends JPanelStart {
 	 * @param gbc the gbc
 	 */
 	private void sevenLine(ActionListener listener, GridBagConstraints gbc) {
-		this.forgetPassword = new JButtonTraspUPTC("Olvidé mi contraseña");
+		this.forgetPassword = new JButtonTraspUPTC("Olvidï¿½ mi contraseï¿½a");
 		this.forgetPassword.setActionCommand("Forgot");
 		this.forgetPassword.addActionListener(listener);
 		gbc.insets = new Insets(0, 30, 0, 0);
