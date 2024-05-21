@@ -64,7 +64,7 @@ public class Presenter extends MouseAdapter implements ActionListener {
         try {
         String source = e.getActionCommand();
         if (source.equals("Login")) {
-            verificationLogin("Login");
+            verificationLogin();
         }
 
         if (source.equals("Forgot")) {
@@ -87,40 +87,53 @@ public class Presenter extends MouseAdapter implements ActionListener {
             changeToCreateUser();
         }
 
+            if (source.equals("BlockUser")) {
+                blockUser();
+            }
+
+            if (source.equals("UnblockUser")) {
+                unblockUser();
+            }
+
+            if (source.equals("BlockCourse")) {
+                blockCourse();
+            }
+
+            if (source.equals("UnblockCourse")) {
+                unblockCourse();
+            }
+
         if (source.equals("Logout")) {
             logOutSystem();
         }
 
         if (source.equals("Help")) {
-            try {
-                connection.send("Help");
-                showData(connection.receive());
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-
+            connection.send(new Gson().toJson(new Request("Help")));
+            showData(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
         }
 
         if (source.equals("Us")) {
+            connection.send(new Gson().toJson(new Request("Us")));
+            showData(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
 
-            showData();
         }
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
 
+
     private void establishConnection() throws IOException {
         try {
             connection.connect();
-            view.showData(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
+            view.showMessage(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
             connection.send(new Gson().toJson(new Responsive("Client connected to server")));
         } catch (IOException e) {
-            view.showData(e.getMessage());
+            view.showMessage(e.getMessage());
         }
     }
 
-    public void verificationLogin(String messageToServer) {
+    public void verificationLogin() {
         String codeUser = view.getFrameApp().getLoginUser().getUserInput();
         String passwordUser = view.getFrameApp().getLoginUser().getPasswordInput();
         try {
@@ -133,39 +146,32 @@ public class Presenter extends MouseAdapter implements ActionListener {
     private void chooseUser(String codeUser, String passwordUser) throws IOException {
         if (codeUser.equals("ADMIN") && passwordUser.equals("ADMIN")) {
             connection.send(new Gson().toJson(new Request("Login", codeUser, passwordUser, "ADMIN")));
-            showUserData(codeUser, passwordUser);
+            showUserData(new Gson().fromJson(connection.receive(), Responsive.class).getVerification(), codeUser, passwordUser);
         } else {
             connection.send(new Gson().toJson(new Request("Login", codeUser, passwordUser, "student")));
-            showUserData(codeUser, passwordUser);
+            System.out.println("Login 2");
+            showUserData(new Gson().fromJson(connection.receive(), Responsive.class).getVerification(), codeUser, passwordUser);
         }
     }
 
-    private void showUserData(String codeUser, String passwordUser) throws IOException {
-        if (new Gson().fromJson(connection.receive(), Responsive.class).getVerification()) {
+    private void showUserData(boolean verification, String codeUser, String passwordUser) throws IOException {
+        if (verification) {
             loginAcess(codeUser);
         } else {
             loginMessage(codeUser, passwordUser);
         }
     }
 
-    /**
-     * Realiza la acci�n para olvido de contrase�a.
-     */
     public void forgotPassword() {
         view.accessChange();
     }
 
-
-    /**
-     * m�todo para navegar en la creaci�n de usuario.
-     */
     public void createUserData() throws IOException {
         String name = view.getFrameApp().getCreateUser().getName();
         String gender = view.getFrameApp().getCreateUser().getSelectedGender();
         String code = view.getFrameApp().getCreateUser().getCode();
         String password = view.getFrameApp().getCreateUser().getPasswordInput();
         createUserMessage(name, gender, code, password);
-
     }
 
     private void createUserMessage(String name, String gender, String code, String password) throws IOException {
@@ -179,6 +185,7 @@ public class Presenter extends MouseAdapter implements ActionListener {
         } else {
             connection.send(new Gson().toJson(new Request("Error_Twin")));
             Responsive response = new Gson().fromJson(connection.receive(), Responsive.class);
+            System.out.println(response.getMessage());
             if (response.getVerification()){
                 showData(response.getMessage());
             } else {
@@ -208,13 +215,14 @@ public class Presenter extends MouseAdapter implements ActionListener {
     /**
      * Actualiza el cambio de contrase�a.
      */
-    public void updatePanelChangePasswaord() {
+    public void updatePanelChangePasswaord() throws IOException {
         String codeUser = view.getFrameApp().getChangePassword().getUserInput();
         String passwordUserNew = view.getFrameApp().getChangePassword().getPasswordInput();
         if (!codeUser.isEmpty() && !passwordUserNew.isEmpty()) {
             verificationUser(codeUser);
         } else {
-            view.getFrameApp().showMessageInfo(Message.ERROR_NULL);
+            connection.send(new Gson().toJson(new Request("Error_Null")));
+            view.getFrameApp().showMessageInfo(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
         }
     }
 
@@ -223,11 +231,13 @@ public class Presenter extends MouseAdapter implements ActionListener {
      *
      * @param codeUser the code user
      */
-    private void verificationUser(String codeUser) {
-        if (sPrincipal.getUsers().containsKey(codeUser)) {
+    private void verificationUser(String codeUser) throws IOException {
+        connection.send(new Gson().toJson(new Request("Exist_User", codeUser, 1)));
+        Responsive response = new Gson().fromJson(connection.receive(), Responsive.class);
+        if (response.getVerification()) {
             updateStatePasword(codeUser);
         } else {
-            view.getFrameApp().showMessageInfo(Message.ERROR_NO_FOUND);
+            view.getFrameApp().showMessageInfo(response.getMessage());
         }
     }
 
@@ -236,7 +246,7 @@ public class Presenter extends MouseAdapter implements ActionListener {
      *
      * @param codeUser the code user
      */
-    private void updateStatePasword(String codeUser) {
+    private void updateStatePasword(String codeUser) throws IOException {
         changeDataUser(codeUser);
         view.accessLoginChange();
         view.getFrameApp().getChangePassword().cleanPanel();
@@ -247,9 +257,10 @@ public class Presenter extends MouseAdapter implements ActionListener {
      *
      * @param codeUser the code user
      */
-    private void changeDataUser(String codeUser) {
-        sPrincipal.changePassword(codeUser, view.getFrameApp().getChangePassword().getPasswordInput());
-        loadData.writeUsersJSON(sPrincipal.getUsers());
+    private void changeDataUser(String codeUser) throws IOException {
+        connection.send(new Gson().toJson(new Request("Change_Password", codeUser, view.getFrameApp().getChangePassword().getPasswordInput())));
+        view.showData(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
+
     }
 
     /**
@@ -266,7 +277,7 @@ public class Presenter extends MouseAdapter implements ActionListener {
      *
      * @return the data course
      */
-    private void getDataCourse() {
+    private void getDataCourse() throws IOException {
         String courseSelect = view.getFrameApp().selectCourse();
         String nameUser = view.getFrameApp().getCreateUser().getName();
         loadCourse(courseSelect, nameUser);
@@ -278,9 +289,9 @@ public class Presenter extends MouseAdapter implements ActionListener {
      * @param courseSelect the course select
      * @param nameUser     the name user
      */
-    private void loadCourse(String courseSelect, String nameUser) {
-
-        view.getFrameApp().setCourse(sPrincipal.selectCourse(courseSelect));
+    private void loadCourse(String courseSelect, String nameUser) throws IOException {
+        connection.send(new Gson().toJson(new Request("Show_Course_CourseName", courseSelect, 2)));
+        view.getFrameApp().setCourse(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
         view.getFrameApp().setNameUser(nameUser);
         view.accessCourseCreate();
     }
@@ -336,7 +347,7 @@ public class Presenter extends MouseAdapter implements ActionListener {
      * @param codeUser the code user
      */
     private void loginAcess(String codeUser) throws IOException {
-        view.getFrameApp().stateLoginUser(false);
+        view.getFrameApp().stateLoginUser(true);
         showName(codeUser);
         selectCourse(codeUser);
         view.accessCourseCreate();
@@ -360,20 +371,28 @@ public class Presenter extends MouseAdapter implements ActionListener {
     }
 
     private void selectCourse(String codeUser) throws IOException {
-        connection.send(new Gson().toJson(new Request("Show_Course", codeUser, 1)));
+        connection.send(new Gson().toJson(new Request("Show_Course_CodeUser", codeUser, 1)));
         view.getFrameApp().getCourse().getWebCourse().loadPage(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
     }
 
     private void showName(String codeUser) throws IOException {
         connection.send(new Gson().toJson(new Request("Show_Name", codeUser, 1)));
+        System.out.println(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
         view.getFrameApp().getCourse().setNameUser(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
     }
 
-    /**
-     * M�todo para mostrar mensajes dentro de los JDialogs.
-     *
-     * @param message el mensaje qu quiero que se muestre.
-     */
+    private void blockUser() {
+    }
+
+    private void unblockUser() {
+    }
+
+    private void blockCourse() {
+    }
+
+    private void unblockCourse() {
+    }
+
     public void showData(String message) {
         view.showData(message);
     }

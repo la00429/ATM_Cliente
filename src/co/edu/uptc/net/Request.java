@@ -26,8 +26,8 @@ public class Request {
                 this.courseName = data;
                 break;
         }
-
     }
+
 
     public Request(String option, String codeUser, String passwordUser, String typeUser) {
         this.option = option;
@@ -41,13 +41,11 @@ public class Request {
         this.student = student;
     }
 
-    public Request(String option, String courseName, Student student) {
+    public Request(String option, String codeUser, String passwordUser) {
         this.option = option;
-        this.courseName = courseName;
-        this.student = student;
+        this.codeUser = codeUser;
+        this.passwordUser = passwordUser;
     }
-
-
 
     public String getOption() {
         return option;

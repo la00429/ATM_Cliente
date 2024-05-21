@@ -29,6 +29,10 @@ public class View {
 		this.getFrameApp().showMessageInfo(message);
 	}
 
+	public void showMessage(String message) {
+		System.out.println(message);
+	}
+
 	/**
 	 * Establece el nombre del curso en la vista.
 	 *

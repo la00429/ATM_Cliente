@@ -9,7 +9,6 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -41,7 +40,7 @@ public class JPanelCourse extends JPanelStart {
 	private JPanel panelCourse; // Panel principal del curso
 
 	/** The web course. */
-	private WebCourse webCourse; // Componente para visualizar el contenido web del curso
+	private JPanelCoursePage coursePage; // Componente para visualizar el contenido web del curso
 
 	/**
 	 * Constructor de la clase JPanelCourse. Inicializa los componentes necesarios
@@ -216,8 +215,8 @@ public class JPanelCourse extends JPanelStart {
 	private void fourLine(GridBagConstraints gbc) {
 		this.panelCourse = new JPanel();
 		panelCourse = new JPanel(new BorderLayout());
-		this.webCourse = new WebCourse();
-		this.panelCourse.add(webCourse, BorderLayout.CENTER);
+		this.coursePage = new JPanelCoursePage();
+		this.panelCourse.add(coursePage, BorderLayout.CENTER);
 		gbc.gridy = 0;
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.insets = new Insets(216, 76, 0, 76);
@@ -252,11 +251,11 @@ public class JPanelCourse extends JPanelStart {
 	 * @param pathCouse La ruta de la web del curso.
 	 */
 	public void setPathCourse(String pathCouse) {
-		this.webCourse.loadPage(pathCouse);
+		this.coursePage.loadPage(pathCouse);
 	}
 
-	public WebCourse getWebCourse() {
-		return webCourse;
+	public JPanelCoursePage getWebCourse() {
+		return coursePage;
 	}
 
 }
