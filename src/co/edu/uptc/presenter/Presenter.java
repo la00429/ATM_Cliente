@@ -135,7 +135,9 @@ public class Presenter extends MouseAdapter implements ActionListener {
 
     public void verificationLogin() {
         String codeUser = view.getFrameApp().getLoginUser().getUserInput();
+        System.out.println(codeUser);
         String passwordUser = view.getFrameApp().getLoginUser().getPasswordInput();
+        System.out.println(passwordUser);
         try {
             chooseUser(codeUser, passwordUser);
         } catch (IOException e) {
@@ -144,17 +146,17 @@ public class Presenter extends MouseAdapter implements ActionListener {
     }
 
     private void chooseUser(String codeUser, String passwordUser) throws IOException {
-        if (codeUser.equals("ADMIN") && passwordUser.equals("ADMIN")) {
+        if (codeUser.equals("0") && passwordUser.equals("ADMIN")) {
             connection.send(new Gson().toJson(new Request("Login", codeUser, passwordUser, "ADMIN")));
             showUserData(new Gson().fromJson(connection.receive(), Responsive.class).getVerification(), codeUser, passwordUser);
         } else {
             connection.send(new Gson().toJson(new Request("Login", codeUser, passwordUser, "student")));
-            System.out.println("Login 2");
             showUserData(new Gson().fromJson(connection.receive(), Responsive.class).getVerification(), codeUser, passwordUser);
         }
     }
 
     private void showUserData(boolean verification, String codeUser, String passwordUser) throws IOException {
+        System.out.println(verification);
         if (verification) {
             loginAcess(codeUser);
         } else {
@@ -347,7 +349,7 @@ public class Presenter extends MouseAdapter implements ActionListener {
      * @param codeUser the code user
      */
     private void loginAcess(String codeUser) throws IOException {
-        view.getFrameApp().stateLoginUser(true);
+        view.getFrameApp().stateLoginUser(false);
         showName(codeUser);
         selectCourse(codeUser);
         view.accessCourseCreate();
@@ -377,7 +379,6 @@ public class Presenter extends MouseAdapter implements ActionListener {
 
     private void showName(String codeUser) throws IOException {
         connection.send(new Gson().toJson(new Request("Show_Name", codeUser, 1)));
-        System.out.println(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
         view.getFrameApp().getCourse().setNameUser(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
     }
 
