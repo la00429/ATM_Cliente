@@ -21,8 +21,9 @@ public class JPanelCoursePage extends JPanel {
 
 	public void loadPage(String htmlContent) {
         try{
-			editorPane.setPage(htmlContent);
-		}catch (IOException e) {
+			editorPane.setContentType("text/html");
+			editorPane.setText(htmlContent);
+		}catch (Exception e) {
 			e.printStackTrace();
 			editorPane.setText("<html><body><h1>Error loading page</h1><p>Could not load the content.</p></body></html>");
 		}
