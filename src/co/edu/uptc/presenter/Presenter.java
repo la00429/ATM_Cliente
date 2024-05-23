@@ -310,7 +310,7 @@ public class Presenter extends MouseAdapter implements ActionListener {
         if (new Gson().fromJson(connection.receive(), Responsive.class).getVerification()){
             view.getFrameApp().getCourse().getWebCourse().loadPage(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
         }else{
-            view.showData(Message.ERROR_COURSE_NOT_FOUND);
+//            view.showData(Message.ERROR_COURSE_NOT_FOUND);
         }
     }
 
