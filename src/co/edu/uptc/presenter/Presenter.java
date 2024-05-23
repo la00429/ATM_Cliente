@@ -307,7 +307,8 @@ public class Presenter extends MouseAdapter implements ActionListener {
     private void selectCourse(String codeUser) throws IOException {
 
         connection.send(new Gson().toJson(new Request("Show_Course_CodeUser", codeUser, 1)));
-        if (new Gson().fromJson(connection.receive(), Responsive.class).getVerification()){
+        Responsive response = new Gson().fromJson(connection.receive(), Responsive.class);
+        if (response.getMessage().isEmpty()){
             view.getFrameApp().getCourse().getWebCourse().loadPage(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
         }else{
 //            view.showData(Message.ERROR_COURSE_NOT_FOUND);
