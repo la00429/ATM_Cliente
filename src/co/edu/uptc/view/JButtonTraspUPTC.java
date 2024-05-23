@@ -11,20 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class JButtonTraspUPTC.
- */
 public class JButtonTraspUPTC extends JButton {
-
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Instantiates a new j button trasp UPTC.
-	 *
-	 * @param text the text
-	 */
+	
 	public JButtonTraspUPTC(String text) {
 		super(text);
 		setFocusPainted(false);
@@ -35,12 +23,7 @@ public class JButtonTraspUPTC extends JButton {
 		setBorderPainted(false);
 		setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}
-
-	/**
-	 * Paint component.
-	 *
-	 * @param g the g
-	 */
+	
 	@Override
 	protected void paintComponent(Graphics g) {
 		if (getModel().isArmed()) {

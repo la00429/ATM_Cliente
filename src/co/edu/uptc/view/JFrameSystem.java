@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -29,7 +28,7 @@ public class JFrameSystem extends JFrame {
 	private JPanelForm formStyleLearning; // Panel para la selecci�n de estilo de aprendizaje
 
 	/** The change password. */
-	private JChangePasswaord changePassword; // Panel para cambiar contrase�a
+	private JChangePassword changePassword; // Panel para cambiar contrase�a
 
 	/** The course. */
 	private JPanelCourse course; // Panel para los cursos
@@ -63,7 +62,7 @@ public class JFrameSystem extends JFrame {
 	private void initComponents(ActionListener listener) {
 		createUser = new JPanelCreateUser(listener);
 		formStyleLearning = new JPanelForm(listener);
-		changePassword = new JChangePasswaord(listener);
+		changePassword = new JChangePassword(listener);
 		course = new JPanelCourse(listener);
 		loginUser = new JPanelLogin(listener);
 		this.add(loginUser);
@@ -214,7 +213,7 @@ public class JFrameSystem extends JFrame {
 	 * 
 	 * @return El panel para cambiar la contrase�a.
 	 */
-	public JChangePasswaord getChangePassword() {
+	public JChangePassword getChangePassword() {
 		return changePassword;
 	}
 

@@ -5,48 +5,24 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 
 import javax.swing.JLabel;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class JChangePasswaord.
- */
-public class JChangePasswaord extends JPanelStart {
+public class JChangePassword extends JPanelStart {
 
-	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	
-	/** The code. */
 	private JLabel code;
-	
-	/** The code input. */
 	private JTextFieldUPTC codeInput;
-	
-	/** The password. */
 	private JLabel password;
-	
-	/** The password input. */
 	private JPasswordUPTC passwordInput;
 
-	/**
-	 * Instantiates a new j change passwaord.
-	 *
-	 * @param listener the listener
-	 */
-	public JChangePasswaord(ActionListener listener) {
+	public JChangePassword(ActionListener listener) {
 		super(listener);
 
 		initComponents2(listener);
 		this.setVisible(false);
 	}
 
-	/**
-	 * Inits the components 2.
-	 *
-	 * @param listener the listener
-	 */
 	private void initComponents2(ActionListener listener){
 		getInfoPanel().setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -58,13 +34,8 @@ public class JChangePasswaord extends JPanelStart {
 		sixLine(listener, gbc);
 	}
 
-	/**
-	 * First line.
-	 *
-	 * @param gbc the gbc
-	 */
 	private void firstLine(GridBagConstraints gbc) {
-		getInfoPanel().getTitle().setText("Cambiar contrase�a");
+		getInfoPanel().getTitle().setText("Cambiar contrase\u00f1a");
 		getInfoPanel().getTitle().setFont(new Font("Arial", Font.BOLD, 64));
 		gbc.anchor = GridBagConstraints.NORTH;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -72,13 +43,8 @@ public class JChangePasswaord extends JPanelStart {
 		getInfoPanel().add(getInfoPanel().getTitle(), gbc);
 	}
 
-	/**
-	 * Second line.
-	 *
-	 * @param gbc the gbc
-	 */
 	private void secondLine(GridBagConstraints gbc) {
-		this.code = new JLabel("C�digo");
+		this.code = new JLabel("C\u00f3digo");
 		this.code.setFont(new Font("Arial", Font.PLAIN, 32));
 		gbc.anchor = GridBagConstraints.FIRST_LINE_START;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -87,11 +53,6 @@ public class JChangePasswaord extends JPanelStart {
 
 	}
 
-	/**
-	 * Third line.
-	 *
-	 * @param gbc the gbc
-	 */
 	private void thirdLine(GridBagConstraints gbc) {
 		this.codeInput = new JTextFieldUPTC();
 		gbc.insets = new Insets(0, 126, 30, 0);
@@ -100,13 +61,8 @@ public class JChangePasswaord extends JPanelStart {
 
 	}
 
-	/**
-	 * Four line.
-	 *
-	 * @param gbc the gbc
-	 */
 	private void fourLine(GridBagConstraints gbc) {
-		this.password = new JLabel("Contrase�a");
+		this.password = new JLabel("Contrase\u00f1a");
 		this.password.setFont(new Font("Arial", Font.PLAIN, 32));
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbc.insets = new Insets(30, 126, 0, 0);
@@ -114,11 +70,6 @@ public class JChangePasswaord extends JPanelStart {
 
 	}
 
-	/**
-	 * Five line.
-	 *
-	 * @param gbc the gbc
-	 */
 	private void fiveLine(GridBagConstraints gbc) {
 		this.passwordInput = new JPasswordUPTC();
 		gbc.insets = new Insets(0, 126, 70, 0);
@@ -126,12 +77,6 @@ public class JChangePasswaord extends JPanelStart {
 		getInfoPanel().add(passwordInput, gbc);
 	}
 
-	/**
-	 * Six line.
-	 *
-	 * @param listener the listener
-	 * @param gbc the gbc
-	 */
 	private void sixLine(ActionListener listener, GridBagConstraints gbc) {
 		getInfoPanel().getButton().setText("Aceptar");
 		getInfoPanel().getButton().setActionCommand("Accept");
@@ -141,29 +86,16 @@ public class JChangePasswaord extends JPanelStart {
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		getInfoPanel().add(getInfoPanel().getButton(), gbc);
 	}
-	
-	/**
-	 * Clean panel.
-	 */
+
 	public void cleanPanel() {
 		this.codeInput.setText("");
 		this.passwordInput.setText("");
 	}
 
-	/**
-	 * Gets the user input.
-	 *
-	 * @return the user input
-	 */
 	public String getUserInput() {
 		return codeInput.getText();
 	}
 
-	/**
-	 * Gets the password input.
-	 *
-	 * @return the password input
-	 */
 	public String getPasswordInput() {
 		char[] passwordChars = passwordInput.getPassword();
 		return new String(passwordChars);

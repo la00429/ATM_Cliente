@@ -1,36 +1,16 @@
 package co.edu.uptc.view;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 
-import javax.swing.DefaultComboBoxModel;
-
-// TODO: Auto-generated Javadoc
-/**
- * The Class JPanelForm.
- */
 public class JPanelForm extends JPanelStart {
-	
-	/** The Constant serialVersionUID. */
+
 	private static final long serialVersionUID = 1L;
-	
-	/** The pane data styles. */
 	private JTextPaneUPTC paneDataStyles;
-	
-	/** The styles. */
 	private JComboBoxUPTC styles;
 
-	/**
-	 * Instantiates a new j panel form.
-	 *
-	 * @param listener the listener
-	 */
 	public JPanelForm(ActionListener listener) {
 		super(listener);
 
@@ -38,12 +18,6 @@ public class JPanelForm extends JPanelStart {
 		this.setVisible(false);
 	}
 
-	/**
-	 * Inits the components 2.
-	 *
-	 * @param listener the listener
-	 * @param listenerMouse the listener mouse
-	 */
 	private void initComponents2(ActionListener listener) {
 		getInfoPanel().setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -54,23 +28,17 @@ public class JPanelForm extends JPanelStart {
 
 	}
 
-	/**
-	 * Gets the dimension panel left.
-	 *
-	 * @param gbc the gbc
-	 * @return the dimension panel left
-	 */
 	private void getDimensionPanelLeft(GridBagConstraints gbc) {
 		getImgUser().removeAll();
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		gbc.weighty = 1.0; // Peso para la fila
-		gbc.weightx = 0; // Peso para la columna
+		gbc.weighty = 1.0;
+		gbc.weightx = 0;
 		gbc.fill = GridBagConstraints.BOTH;
 		add(getImgUser(), gbc);
 
 		gbc.gridx = 1;
-		gbc.weightx = 1; // Peso para la columna
+		gbc.weightx = 1;
 		add(getInfoPanel(), gbc);
 
 		getImgUser().firstLineUser(96, 88);
@@ -78,11 +46,6 @@ public class JPanelForm extends JPanelStart {
 		repaint();
 	}
 
-	/**
-	 * First line.
-	 *
-	 * @param gbc the gbc
-	 */
 	private void firstLine(GridBagConstraints gbc) {
 		getInfoPanel().getTitle().setText("Elije tu estilo de aprendizaje");
 		getInfoPanel().getTitle().setFont(new Font("Arial", Font.BOLD, 64));
@@ -94,15 +57,8 @@ public class JPanelForm extends JPanelStart {
 		getInfoPanel().add(getInfoPanel().getTitle(), gbc);
 	}
 
-	/**
-	 * Second line.
-	 *
-	 * @param gbc the gbc
-	 */
 	private void secondLine(GridBagConstraints gbc) {
-//		configurationPanelStyles();
 		addTextPane();
-//		this.panelStyles.add(paneDataStyles, BorderLayout.CENTER);
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -111,9 +67,6 @@ public class JPanelForm extends JPanelStart {
 		getInfoPanel().add(this.paneDataStyles, gbc);
 	}
 
-	/**
-	 * Adds the text pane.
-	 */
 	private void addTextPane() {
 		this.paneDataStyles = new JTextPaneUPTC();
 		String paragraph = "<html><p style='font-family:Arial; font-size:20px;'> <b>Adaptador:</b> Es el estilo de aprendizaje que se basa en la experiencia concreta y la experimentaci�n activa. Las personas con este estilo son pr�cticas, flexibles, intuitivas y orientadas a la acci�n. Les gusta resolver problemas, asumir riesgos y aprender haciendo.</p>"
@@ -125,37 +78,26 @@ public class JPanelForm extends JPanelStart {
 
 	}
 
-	/**
-	 * Third line.
-	 *
-	 * @param listener the listener
-	 * @param gbc the gbc
-	 */
 	private void thirdLine(ActionListener listener, GridBagConstraints gbc) {
 		this.styles = new JComboBoxUPTC();
 		gbc.gridx = 0;
 		gbc.gridy = 2;
-		gbc.gridwidth = 1; // Ancho del JComboBox
+		gbc.gridwidth = 1;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.anchor = GridBagConstraints.CENTER;
-		gbc.insets = new Insets(0, 236, 47, 0); // Ajusta los m�rgenes seg�n lo necesites
+		gbc.insets = new Insets(0, 236, 47, 0);
 		getInfoPanel().add(styles, gbc);
 
 		getInfoPanel().getButton().setText("Registrarme");
 		getInfoPanel().getButton().setActionCommand("Record");
 		getInfoPanel().getButton().addActionListener(listener);
 		gbc.gridx = 1;
-		gbc.gridwidth = GridBagConstraints.REMAINDER; // Resto del ancho disponible
-		gbc.insets = new Insets(0, 5, 47, 140); // Ajusta los m�rgenes seg�n lo necesites
+		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		gbc.insets = new Insets(0, 5, 47, 140);
 		getInfoPanel().add(getInfoPanel().getButton(), gbc);
 
 	}
 
-	/**
-	 * Carga el combo box con los items de estilos.
-	 *
-	 * @param items Un arrayList con los estilos.
-	 */
 	public void loadComboBoxStyles(ArrayList<String> items) {
 		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
 		model.addElement("Elige uno");
@@ -166,21 +108,11 @@ public class JPanelForm extends JPanelStart {
 		this.styles.setModel(model);
 	}
 
-	/**
-	 * Clean panel.
-	 */
 	public void cleanPanel() {
 		this.styles.setSelectedItem("Elige uno");
 	}
 
-	/**
-	 * Gets the select style.
-	 *
-	 * @return the select style
-	 */
 	public String getSelectStyle() {
 		return (String) styles.getSelectedItem();
-
 	}
-
 }
