@@ -16,18 +16,12 @@ import javax.swing.JPanel;
 public class JPanelCourse extends JPanelStart {
 
     private static final long serialVersionUID = 1L;
-
     private JPanel optionsMenu;
-
     private JButtonTraspUPTC logout;
-
     private JLabel name;
-
-    private JTextPaneUPTC subTitle; // Panel de texto para mostrar informaci�n adicional
-
-    private JPanel panelCourse; // Panel principal del curso
-
-    private JPanelCoursePage coursePage; // Componente para visualizar el contenido web del curso
+    private JTextPaneUPTC subTitle;
+    private JPanel panelCourse;
+    private JPanelCoursePage coursePage;
 
     public JPanelCourse(ActionListener listener) {
         super(listener);
@@ -62,8 +56,8 @@ public class JPanelCourse extends JPanelStart {
         getImgUser().remove(getImgUser().getImgUPTC());
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.weighty = 1.0; // Peso para la fila
-        gbc.weightx = 0; // Peso para la columna
+        gbc.weighty = 1.0;
+        gbc.weightx = 0;
         gbc.fill = GridBagConstraints.BOTH;
         add(getImgUser(), gbc);
     }

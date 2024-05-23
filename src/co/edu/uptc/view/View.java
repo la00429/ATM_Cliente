@@ -2,116 +2,69 @@ package co.edu.uptc.view;
 
 import java.awt.event.ActionListener;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class View.
- */
 public class View {
-	
-	/** The frame app. */
-	private JFrameSystem frameApp;
+    private JFrameSystem frameApp;
 
-	/**
-	 * Instantiates a new view.
-	 *
-	 * @param listener the listener
-	 */
-	public View(ActionListener listener ) {
-		frameApp = new JFrameSystem(listener);
-	}
+    public View(ActionListener listener) {
+        frameApp = new JFrameSystem(listener);
+    }
 
-	/**
-	 * Muestra un mensaje en la vista.
-	 *
-	 * @param message El mensaje a mostrar.
-	 */
-	public void showData(String message) {
-		this.getFrameApp().showMessageInfo(message);
-	}
+    public void showData(String message) {
+        this.getFrameApp().showMessageInfo(message);
+    }
 
-	public void showMessage(String message) {
-		System.out.println(message);
-	}
+    public void showMessage(String message) {
+        System.out.println(message);
+    }
 
-	/**
-	 * Establece el nombre del curso en la vista.
-	 *
-	 * @param course El nombre del curso a establecer.
-	 */
-	public void setCourse(String course) {
-		this.getFrameApp().setCourse(course);
-	}
+    public void setCourse(String course) {
+        this.getFrameApp().setCourse(course);
+    }
 
-	/**
-	 * Gets the frame app.
-	 *
-	 * @return the frame app
-	 */
-	public JFrameSystem getFrameApp() {
-		return frameApp;
-	}
+    public JFrameSystem getFrameApp() {
+        return frameApp;
+    }
 
-	/**
-	 * Accede al inicio de sesi�n.
-	 */
-	public void accessLogin() {
-		getFrameApp().stateCourse(false);
-		getFrameApp().stateLoginUser(true);
+    public void accessLogin() {
+        getFrameApp().stateCourse(false);
+        getFrameApp().stateLoginUser(true);
 
-	}
+    }
 
-	/**
-	 * Accede al curso.
-	 */
-	public void accessCourse() {
-		getFrameApp().stateLoginUser(false);
-		getFrameApp().stateCourse(true);
+    public void accessCourse() {
+        getFrameApp().stateLoginUser(false);
+        getFrameApp().stateCourse(true);
 
-	}
+    }
 
-	/**
-	 * Accede al panel de creaci�n de usuario.
-	 */
-	public void accessCreate() {
-		getFrameApp().stateLoginUser(false);
-		getFrameApp().stateCreateUser(true);
+    public void accessCreate() {
+        getFrameApp().stateLoginUser(false);
+        getFrameApp().stateCreateUser(true);
 
-	}
+    }
 
-	/**
-	 * Accede al curso desde la ruta de paneles para crear un usuario.
-	 */
-	public void accessCourseCreate() {
-		getFrameApp().stateFormStyleLearning(false);
-		getFrameApp().stateCourse(true);
+    public void accessCourseCreate() {
+        getFrameApp().stateFormStyleLearning(false);
+        getFrameApp().stateCourse(true);
 
-	}
+    }
 
-	/**
-	 * Accede al cambio de contrase�a.
-	 */
-	public void accessChange() {
-		getFrameApp().stateLoginUser(false);
-		getFrameApp().stateChangePassword(true);
+    public void accessChange() {
+        getFrameApp().stateLoginUser(false);
+        getFrameApp().stateChangePassword(true);
 
-	}
+    }
 
-	/**
-	 * Accede al formulario de estilos de aprendizaje.
-	 */
-	public void accessForm() {
-		getFrameApp().stateCreateUser(false);
-		getFrameApp().stateFormStyleLearning(true);
+    public void accessForm() {
+        getFrameApp().stateCreateUser(false);
+        getFrameApp().stateFormStyleLearning(true);
 
-	}
+    }
 
-	/**
-	 * Accede al sesi�n desde el cambio de contrase�a.
-	 */
-	public void accessLoginChange() {
-		getFrameApp().stateChangePassword(false);
-		getFrameApp().stateLoginUser(true);
-		
-	}
+    public void accessLoginChange() {
+        getFrameApp().stateChangePassword(false);
+        getFrameApp().stateLoginUser(true);
+
+    }
 
 }
