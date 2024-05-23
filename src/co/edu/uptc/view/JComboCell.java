@@ -9,12 +9,10 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
+public class JComboCell extends DefaultListCellRenderer {
+    private static final long serialVersionUID = 1L;
 
-public class JComboCell extends DefaultListCellRenderer{
-
-	private static final long serialVersionUID = 1L;
-
-	@Override
+    @Override
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         JLabel cell = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         // Personaliza la apariencia de cada item aqu�
