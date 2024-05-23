@@ -147,18 +147,17 @@ public class Presenter extends MouseAdapter implements ActionListener {
 
     private void chooseUser(String codeUser, String passwordUser) throws IOException {
         if (codeUser.equals("0") && passwordUser.equals("ADMIN")) {
-            connection.send(new Gson().toJson(new Request("Login", codeUser, passwordUser, "ADMIN")));
-            showUserData(new Gson().fromJson(connection.receive(), Responsive.class).getVerification(), codeUser, passwordUser);
+            connection.send(new Gson().toJson(new Request("Login", codeUser, passwordUser)));
+            showUserData(new Gson().fromJson(connection.receive(), Responsive.class).getVerification(), codeUser, passwordUser,"ADMIN");
         } else {
-            connection.send(new Gson().toJson(new Request("Login", codeUser, passwordUser, "student")));
-            showUserData(new Gson().fromJson(connection.receive(), Responsive.class).getVerification(), codeUser, passwordUser);
+            connection.send(new Gson().toJson(new Request("Login", codeUser, passwordUser)));
+            showUserData(new Gson().fromJson(connection.receive(), Responsive.class).getVerification(), codeUser, passwordUser, "student");
         }
     }
 
-    private void showUserData(boolean verification, String codeUser, String passwordUser) throws IOException {
-        System.out.println(verification);
+    private void showUserData(boolean verification, String codeUser, String passwordUser, String typeUser) throws IOException {
         if (verification) {
-            loginAcess(codeUser);
+            loginAcess(codeUser, typeUser);
         } else {
             loginMessage(codeUser, passwordUser);
         }
@@ -280,12 +279,19 @@ public class Presenter extends MouseAdapter implements ActionListener {
         view.accessForm();
     }
 
-    private void loginAcess(String codeUser) throws IOException {
-        view.getFrameApp().stateLoginUser(false);
-        showName(codeUser);
-        selectCourse(codeUser);
-        view.accessCourseCreate();
-        view.getFrameApp().getLoginUser().cleanPanel();
+    private void loginAcess(String codeUser,String typeUser) throws IOException {
+        switch (typeUser) {
+            case "ADMIN":
+                break;
+            case "student":
+                view.getFrameApp().stateLoginUser(false);
+                showName(codeUser);
+                selectCourse(codeUser);
+                view.accessCourseCreate();
+                view.getFrameApp().getLoginUser().cleanPanel();
+                break;
+        }
+
     }
 
     private void loginMessage(String codeUser, String passwordUser) throws IOException {
@@ -299,8 +305,13 @@ public class Presenter extends MouseAdapter implements ActionListener {
     }
 
     private void selectCourse(String codeUser) throws IOException {
+
         connection.send(new Gson().toJson(new Request("Show_Course_CodeUser", codeUser, 1)));
-        view.getFrameApp().getCourse().getWebCourse().loadPage(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
+        if (new Gson().fromJson(connection.receive(), Responsive.class).getVerification()){
+            view.getFrameApp().getCourse().getWebCourse().loadPage(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
+        }else{
+            view.showData(Message.ERROR_COURSE_NOT_FOUND);
+        }
     }
 
     private void showName(String codeUser) throws IOException {

@@ -20,13 +20,12 @@ public class JPanelCoursePage extends JPanel {
 	}
 
 	public void loadPage(String htmlContent) {
-        try{
-			editorPane.setContentType("text/html");
-			editorPane.setText(htmlContent);
-		}catch (Exception e) {
-			e.printStackTrace();
-			editorPane.setText("<html><body><h1>Error loading page</h1><p>Could not load the content.</p></body></html>");
-		}
+			if (htmlContent == null || htmlContent.isEmpty()) {
+				editorPane.setText("<html><body><h1>Error loading page</h1><p>Could not load the content.</p></body></html>");
 
+			}else {
+				editorPane.setContentType("text/html");
+				editorPane.setText(htmlContent);
+			}
     }
 }

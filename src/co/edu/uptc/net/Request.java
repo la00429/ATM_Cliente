@@ -7,7 +7,6 @@ public class Request {
     private String codeUser;
     private String passwordUser;
     private String courseName;
-    private String typeUser;
     private Student student;
 
     //le envio datos para pedirle algo al servidor
@@ -26,14 +25,6 @@ public class Request {
                 this.courseName = data;
                 break;
         }
-    }
-
-
-    public Request(String option, String codeUser, String passwordUser, String typeUser) {
-        this.option = option;
-        this.codeUser = codeUser;
-        this.passwordUser = passwordUser;
-        this.typeUser = typeUser;
     }
 
     public Request(String option, Student student) {
@@ -61,10 +52,6 @@ public class Request {
 
     public String getCourseName() {
         return courseName;
-    }
-
-    public String getTypeUser() {
-        return typeUser;
     }
 
     public Student getStudent() {
