@@ -1,0 +1,4 @@
+Assimilator
+Adapter
+Divergent
+Convergent

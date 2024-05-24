@@ -1,5 +1,7 @@
 package co.edu.uptc.view;
 
+import co.edu.uptc.config.Message;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -23,7 +25,7 @@ public class JPanelCoursePage extends JPanel {
             editorPane.setText(htmlContent);
         } catch (Exception e) {
             e.printStackTrace();
-            editorPane.setText("<html><body><h1>Error loading page</h1><p>Could not load the content.</p></body></html>");
+            editorPane.setText(Message.ERROR_LOAD_PAGE);
         }
 
     }

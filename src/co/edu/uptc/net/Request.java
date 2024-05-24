@@ -9,9 +9,6 @@ public class Request {
     private String courseName;
     private Student student;
 
-    //le envio datos para pedirle algo al servidor
-
-
     public Request(String option) {
         this.option = option;
     }

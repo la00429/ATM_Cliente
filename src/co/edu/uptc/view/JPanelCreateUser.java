@@ -37,7 +37,7 @@ public class JPanelCreateUser extends JPanelStart {
     }
 
     private void firstLine(GridBagConstraints gbc) {
-        getInfoPanel().getTitle().setText("Crear Usuario");
+        getInfoPanel().getTitle().setText("Create User");
         getInfoPanel().getTitle().setFont(new Font("Arial", Font.BOLD, 64));
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -46,7 +46,7 @@ public class JPanelCreateUser extends JPanelStart {
     }
 
     private void secondLine(GridBagConstraints gbc) {
-        this.name = new JLabel("Nombre");
+        this.name = new JLabel("Name");
         this.name.setFont(new Font("Arial", Font.PLAIN, 32));
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -63,7 +63,7 @@ public class JPanelCreateUser extends JPanelStart {
     }
 
     private void fourLine(GridBagConstraints gbc) {
-        this.code = new JLabel("C\u00f3digo");
+        this.code = new JLabel("Code");
         this.code.setFont(new Font("Arial", Font.PLAIN, 32));
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -80,7 +80,7 @@ public class JPanelCreateUser extends JPanelStart {
     }
 
     private void sixLine(GridBagConstraints gbc) {
-        this.gender = new JLabel("Sexo");
+        this.gender = new JLabel("Sex");
         this.gender.setFont(new Font("Arial", Font.PLAIN, 32));
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -97,7 +97,7 @@ public class JPanelCreateUser extends JPanelStart {
     }
 
     private void eightLine(GridBagConstraints gbc) {
-        this.password = new JLabel("Contrase\u00f1a");
+        this.password = new JLabel("Password");
         this.password.setFont(new Font("Arial", Font.PLAIN, 32));
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.insets = new Insets(20, 30, 0, 0);
@@ -113,7 +113,7 @@ public class JPanelCreateUser extends JPanelStart {
     }
 
     private void tenLine(ActionListener listener, GridBagConstraints gbc) {
-        getInfoPanel().getButton().setText("Siguiente");
+        getInfoPanel().getButton().setText("Next");
         getInfoPanel().getButton().setActionCommand("Next");
         getInfoPanel().getButton().addActionListener(listener);
         gbc.insets = new Insets(30, 30, 0, 0);
@@ -124,7 +124,7 @@ public class JPanelCreateUser extends JPanelStart {
 
     public void loadComboBoxGender(ArrayList<String> items) {
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
-        model.addElement("Elige uno");
+        model.addElement("Choose one");
         for (String item : items) {
             model.addElement(item);
         }
@@ -134,7 +134,7 @@ public class JPanelCreateUser extends JPanelStart {
     public void cleanPanel() {
         this.nameInput.setText("");
         this.codeInput.setText("");
-        this.genderInput.setSelectedItem("Elige uno");
+        this.genderInput.setSelectedItem("Choose one");
         this.passwordInput.setText("");
     }
 

@@ -1,5 +1,7 @@
 package co.edu.uptc.view;
 
+import co.edu.uptc.config.Message;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -44,7 +46,7 @@ public class JPanelForm extends JPanelStart {
     }
 
     private void firstLine(GridBagConstraints gbc) {
-        getInfoPanel().getTitle().setText("Elije tu estilo de aprendizaje");
+        getInfoPanel().getTitle().setText("Choose your learning style");
         getInfoPanel().getTitle().setFont(new Font("Arial", Font.BOLD, 64));
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -66,11 +68,8 @@ public class JPanelForm extends JPanelStart {
 
     private void addTextPane() {
         this.paneDataStyles = new JTextPaneUPTC();
-        String paragraph = "<html><p style='font-family:Arial; font-size:20px;'> <b>Adaptador:</b> Es el estilo de aprendizaje que se basa en la experiencia concreta y la experimentaci�n activa. Las personas con este estilo son pr�cticas, flexibles, intuitivas y orientadas a la acci�n. Les gusta resolver problemas, asumir riesgos y aprender haciendo.</p>"
-                + "<p style='font-family:Arial; font-size:20px;'> <b>Asimilador:</b> Es el estilo de aprendizaje que se basa en la observaci�n reflexiva y la conceptualizaci�n abstracta. Las personas con este estilo son l�gicas, racionales, anal�ticas y te�ricas. Les gusta estudiar, investigar, planificar y crear modelos.</p>"
-                + "<p style='font-family:Arial; font-size:20px;'> <b>Divergente:</b> Es el estilo de aprendizaje que se basa en la experiencia concreta y la observaci�n reflexiva. Las personas con este estilo son creativas, imaginativas, emocionales y sensibles. Les gusta explorar, generar ideas, trabajar en grupo y expresarse.</p>"
-                + "<p style='font-family:Arial; font-size:20px;'> <b>Convergente:</b> Es el estilo de aprendizaje que se basa en la conceptualizaci�n abstracta y la experimentaci�n activa. Las personas con este estilo son pr�cticas, eficientes, objetivas y orientadas a los resultados. Les gusta aplicar lo que saben, tomar decisiones, resolver problemas y encontrar soluciones.</p></html>";
-        this.paneDataStyles.setText(paragraph);
+
+        this.paneDataStyles.setText(Message.MESSAGE_LEARNING_STYLES);
         this.paneDataStyles.setColorBack(Color.LIGHT_GRAY);
 
     }
@@ -85,7 +84,7 @@ public class JPanelForm extends JPanelStart {
         gbc.insets = new Insets(0, 236, 47, 0);
         getInfoPanel().add(styles, gbc);
 
-        getInfoPanel().getButton().setText("Registrarme");
+        getInfoPanel().getButton().setText("Register");
         getInfoPanel().getButton().setActionCommand("Record");
         getInfoPanel().getButton().addActionListener(listener);
         gbc.gridx = 1;
@@ -97,7 +96,7 @@ public class JPanelForm extends JPanelStart {
 
     public void loadComboBoxStyles(ArrayList<String> items) {
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
-        model.addElement("Elige uno");
+        model.addElement("Choose one");
         for (String item : items) {
             model.addElement(item);
         }
@@ -105,7 +104,7 @@ public class JPanelForm extends JPanelStart {
     }
 
     public void cleanPanel() {
-        this.styles.setSelectedItem("Elige uno");
+        this.styles.setSelectedItem("Choose one");
     }
 
     public String getSelectStyle() {

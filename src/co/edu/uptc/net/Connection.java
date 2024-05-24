@@ -7,14 +7,13 @@ import java.net.Socket;
 
 public class Connection {
     private final int PUERTO = 1234;
-    private final String HOST = "localhost";
     private Socket socket;
     private DataOutputStream output;
     private DataInputStream input;
 
-    public Connection() throws IOException {
+    public Connection(String host) throws IOException {
         try {
-            this.socket = new Socket(HOST, PUERTO);
+            this.socket = new Socket(host, PUERTO);
             this.connect();
         } catch (IOException e) {
             throw new IOException("Connection not established. Server Not Found", e);
@@ -55,5 +54,7 @@ public class Connection {
             throw new IOException("Socket is not connected or is closed");
         }
     }
+
+
 
 }

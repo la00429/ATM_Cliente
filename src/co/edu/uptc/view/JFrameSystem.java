@@ -15,10 +15,11 @@ public class JFrameSystem extends JFrame {
     private JPanelForm formStyleLearning;
     private JChangePassword changePassword;
     private JPanelCourse course;
+    private JPanelAdmin adminPanel;
     private JDialogUPTC showInfo;
 
     public JFrameSystem(ActionListener listener) {
-        super("Aprendamos Juntos");
+        super("Lets learn together");
         this.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width,
                 Toolkit.getDefaultToolkit().getScreenSize().height));
         this.setBackground(new Color(255, 255, 255));
@@ -33,6 +34,7 @@ public class JFrameSystem extends JFrame {
         formStyleLearning = new JPanelForm(listener);
         changePassword = new JChangePassword(listener);
         course = new JPanelCourse(listener);
+        adminPanel = new JPanelAdmin(listener);
         loginUser = new JPanelLogin(listener);
         this.add(loginUser);
     }
@@ -63,6 +65,11 @@ public class JFrameSystem extends JFrame {
         this.changePassword.setVisible(state);
     }
 
+    public void stateAdminPanel(boolean state) {
+        this.add(adminPanel);
+        this.adminPanel.setVisible(state);
+    }
+
     public void stateCourse(boolean state) {
         this.add(course);
         this.course.setVisible(state);
@@ -72,8 +79,12 @@ public class JFrameSystem extends JFrame {
         this.createUser.loadComboBoxGender(items);
     }
 
-    public void loadComboStyles(ArrayList<String> items) {
+    public void loadComboCourses(ArrayList<String> items) {
         this.formStyleLearning.loadComboBoxStyles(items);
+        this.adminPanel.loadComboBoxCourses(items);
+    }
+    public void loadComboUsers(ArrayList<String> items) {
+        this.adminPanel.loadComboBoxUsers(items);
     }
 
     public String selectCourse() {
@@ -84,8 +95,8 @@ public class JFrameSystem extends JFrame {
         this.course.setNameUser(name);
     }
 
-    public void setCourse(String path) {
-        this.course.setPathCourse(path);
+    public void loadCourse(String path) {
+        this.course.loadCourse(path);
     }
 
     public JPanelLogin getLoginUser() {
@@ -106,5 +117,9 @@ public class JFrameSystem extends JFrame {
 
     public JPanelCourse getCourse() {
         return course;
+    }
+
+    public JPanelAdmin getAdminPanel() {
+        return adminPanel;
     }
 }

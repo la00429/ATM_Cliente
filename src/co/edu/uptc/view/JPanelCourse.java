@@ -1,5 +1,7 @@
 package co.edu.uptc.view;
 
+import co.edu.uptc.config.Message;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,8 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class JPanelCourse extends JPanelStart {
-
-    private static final long serialVersionUID = 1L;
     private JPanel optionsMenu;
     private JButtonTraspUPTC logout;
     private JLabel name;
@@ -120,8 +120,7 @@ public class JPanelCourse extends JPanelStart {
     }
 
     private void addTextPane() {
-        String paragraph = "Este es el curso de acuerdo al estilo de aprendizaje que m\u00E1s se acomoda a ti. Gracias por estar aqu\u00ED. </p></html>";
-        this.subTitle.setText(paragraph);
+        this.subTitle.setText(Message.MESSAGE_COURSE);
     }
 
     private void fourLine(GridBagConstraints gbc) {
@@ -152,8 +151,8 @@ public class JPanelCourse extends JPanelStart {
         getInfoPanel().add(getInfoPanel().getTitle(), gbc);
     }
 
-    public void setPathCourse(String pathCouse) {
-        this.coursePage.loadPage(pathCouse);
+    public void loadCourse(String infoCouse) {
+        this.coursePage.loadPage(infoCouse);
     }
 
     public JPanelCoursePage getWebCourse() {

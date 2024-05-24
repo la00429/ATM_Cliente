@@ -34,7 +34,7 @@ public class JChangePassword extends JPanelStart {
     }
 
     private void firstLine(GridBagConstraints gbc) {
-        getInfoPanel().getTitle().setText("Cambiar contrase\u00f1a");
+        getInfoPanel().getTitle().setText("Change Password");
         getInfoPanel().getTitle().setFont(new Font("Arial", Font.BOLD, 64));
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -43,7 +43,7 @@ public class JChangePassword extends JPanelStart {
     }
 
     private void secondLine(GridBagConstraints gbc) {
-        this.code = new JLabel("C\u00f3digo");
+        this.code = new JLabel("Code");
         this.code.setFont(new Font("Arial", Font.PLAIN, 32));
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -61,7 +61,7 @@ public class JChangePassword extends JPanelStart {
     }
 
     private void fourLine(GridBagConstraints gbc) {
-        this.password = new JLabel("Contrase\u00f1a");
+        this.password = new JLabel("Password");
         this.password.setFont(new Font("Arial", Font.PLAIN, 32));
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.insets = new Insets(30, 126, 0, 0);
@@ -77,7 +77,7 @@ public class JChangePassword extends JPanelStart {
     }
 
     private void sixLine(ActionListener listener, GridBagConstraints gbc) {
-        getInfoPanel().getButton().setText("Aceptar");
+        getInfoPanel().getButton().setText("Accept");
         getInfoPanel().getButton().setActionCommand("Accept");
         getInfoPanel().getButton().addActionListener(listener);
         gbc.insets = new Insets(70, 30, 0, 0);

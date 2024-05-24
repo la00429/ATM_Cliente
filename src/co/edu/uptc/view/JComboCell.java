@@ -15,7 +15,6 @@ public class JComboCell extends DefaultListCellRenderer {
     @Override
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         JLabel cell = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-        // Personaliza la apariencia de cada item aqu�
         cell.setFont(new Font("Arial", Font.PLAIN, 20));
         cell.setForeground(Color.DARK_GRAY);
         cell.setPreferredSize(new Dimension(420, 50));
