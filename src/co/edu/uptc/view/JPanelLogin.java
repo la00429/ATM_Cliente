@@ -37,7 +37,7 @@ public class JPanelLogin extends JPanelStart {
     }
 
     private void firstLine(GridBagConstraints gbc) {
-        getInfoPanel().getTitle().setText("Iniciar sesi\u00f3n");
+        getInfoPanel().getTitle().setText("Log in");
         getInfoPanel().getTitle().setFont(new Font("Arial", Font.BOLD, 64));
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -46,7 +46,7 @@ public class JPanelLogin extends JPanelStart {
     }
 
     private void secondLine(GridBagConstraints gbc) {
-        this.user = new JLabel("C\u00f3digo");
+        this.user = new JLabel("Code");
         this.user.setFont(new Font("Arial", Font.PLAIN, 32));
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -64,7 +64,7 @@ public class JPanelLogin extends JPanelStart {
     }
 
     private void fourLine(GridBagConstraints gbc) {
-        this.password = new JLabel("Contrase\u00f1a");
+        this.password = new JLabel("Password");
         this.password.setFont(new Font("Arial", Font.PLAIN, 32));
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.insets = new Insets(30, 30, 0, 0);
@@ -80,7 +80,7 @@ public class JPanelLogin extends JPanelStart {
     }
 
     private void sixLine(ActionListener listener, GridBagConstraints gbc) {
-        getInfoPanel().getButton().setText("Iniciar sesi\u00f3n");
+        getInfoPanel().getButton().setText("Log in");
         getInfoPanel().getButton().setActionCommand("Login");
         getInfoPanel().getButton().addActionListener(listener);
         gbc.insets = new Insets(70, 30, 0, 0);
@@ -90,7 +90,7 @@ public class JPanelLogin extends JPanelStart {
     }
 
     private void sevenLine(ActionListener listener, GridBagConstraints gbc) {
-        this.forgetPassword = new JButtonTraspUPTC("Olvid\u00e9 mi contrase\u00f1a");
+        this.forgetPassword = new JButtonTraspUPTC("Forgot my password");
         this.forgetPassword.setActionCommand("Forgot");
         this.forgetPassword.addActionListener(listener);
         gbc.insets = new Insets(0, 30, 0, 0);
@@ -100,7 +100,7 @@ public class JPanelLogin extends JPanelStart {
     }
 
     private void eightLine(ActionListener listener, GridBagConstraints gbc) {
-        this.createCount = new JButtonTraspUPTC("Crear una cuenta");
+        this.createCount = new JButtonTraspUPTC("Create an account");
         this.createCount.setActionCommand("Create");
         this.createCount.addActionListener(listener);
         gbc.gridwidth = GridBagConstraints.REMAINDER;

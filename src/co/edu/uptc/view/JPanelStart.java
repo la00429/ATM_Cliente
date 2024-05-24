@@ -23,8 +23,8 @@ public class JPanelStart extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.weightx = 0.5; // Cada panel ocupar� la mitad del ancho
-        gbc.weighty = 1.0; // Para llenar verticalmente
+        gbc.weightx = 0.5;
+        gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(5, 5, 5, 5);
 

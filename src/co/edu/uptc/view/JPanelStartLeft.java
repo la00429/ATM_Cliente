@@ -108,7 +108,7 @@ public class JPanelStartLeft extends JPanel {
         gbc.insets = new Insets(0, 5, 10, 5);
         this.add(imgUPTC, gbc);
 
-        info = new JButtonTraspUPTC("Sobre nosotros");
+        info = new JButtonTraspUPTC("About us");
         this.info.setActionCommand("Us");
         this.info.addActionListener(listener);
         gbc.anchor = GridBagConstraints.SOUTHEAST;
