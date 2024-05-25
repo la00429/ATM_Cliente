@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JLabel;
 
 public class JPanelLogin extends JPanelStart {
-    private static final long serialVersionUID = 1L;
     private JLabel user;
     private JTextFieldUPTC userInput;
     private JLabel password;
@@ -83,7 +82,7 @@ public class JPanelLogin extends JPanelStart {
         getInfoPanel().getButton().setText("Log in");
         getInfoPanel().getButton().setActionCommand("Login");
         getInfoPanel().getButton().addActionListener(listener);
-        gbc.insets = new Insets(70, 30, 0, 0);
+        gbc.insets = new Insets(50, 30, 0, 0);
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         getInfoPanel().add(getInfoPanel().getButton(), gbc);

@@ -4,12 +4,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
 public class JFrameSystem extends JFrame {
-    private static final long serialVersionUID = 1L;
     private JPanelLogin loginUser;
     private JPanelCreateUser createUser;
     private JPanelForm formStyleLearning;
@@ -18,12 +18,12 @@ public class JFrameSystem extends JFrame {
     private JPanelAdmin adminPanel;
     private JDialogUPTC showInfo;
 
-    public JFrameSystem(ActionListener listener) {
+    public JFrameSystem(ActionListener listener, WindowListener windowListener) {
         super("Lets learn together");
         this.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width,
                 Toolkit.getDefaultToolkit().getScreenSize().height));
         this.setBackground(new Color(255, 255, 255));
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.addWindowListener(windowListener);
         initComponents(listener);
         pack();
         this.setVisible(true);

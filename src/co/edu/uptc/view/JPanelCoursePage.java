@@ -14,7 +14,6 @@ public class JPanelCoursePage extends JPanel {
         editorPane = new JEditorPane();
         editorPane.setContentType("text/html");
         editorPane.setEditable(false);
-
         JScrollPane scrollPane = new JScrollPane(editorPane);
         add(scrollPane, BorderLayout.CENTER);
     }

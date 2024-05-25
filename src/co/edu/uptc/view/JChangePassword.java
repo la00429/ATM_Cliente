@@ -1,23 +1,18 @@
 package co.edu.uptc.view;
 
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
-import javax.swing.JLabel;
 
 public class JChangePassword extends JPanelStart {
-
-    private static final long serialVersionUID = 1L;
     private JLabel code;
     private JTextFieldUPTC codeInput;
     private JLabel password;
     private JPasswordUPTC passwordInput;
+    private JButtonUPTC goBack;
 
     public JChangePassword(ActionListener listener) {
         super(listener);
-
         initComponents2(listener);
         this.setVisible(false);
     }
@@ -47,14 +42,14 @@ public class JChangePassword extends JPanelStart {
         this.code.setFont(new Font("Arial", Font.PLAIN, 32));
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.insets = new Insets(70, 126, 0, 0);
+        gbc.insets = new Insets(70, 100, 0, 100);
         getInfoPanel().add(code, gbc);
 
     }
 
     private void thirdLine(GridBagConstraints gbc) {
         this.codeInput = new JTextFieldUPTC();
-        gbc.insets = new Insets(0, 126, 30, 0);
+        gbc.insets = new Insets(0, 100, 30, 100);
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         getInfoPanel().add(codeInput, gbc);
 
@@ -64,26 +59,39 @@ public class JChangePassword extends JPanelStart {
         this.password = new JLabel("Password");
         this.password.setFont(new Font("Arial", Font.PLAIN, 32));
         gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.insets = new Insets(30, 126, 0, 0);
+        gbc.insets = new Insets(30, 100, 0, 100);
         getInfoPanel().add(password, gbc);
 
     }
 
     private void fiveLine(GridBagConstraints gbc) {
         this.passwordInput = new JPasswordUPTC();
-        gbc.insets = new Insets(0, 126, 70, 0);
+        gbc.insets = new Insets(0, 100, 70, 100);
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         getInfoPanel().add(passwordInput, gbc);
     }
 
     private void sixLine(ActionListener listener, GridBagConstraints gbc) {
+        addButtonGoBack(listener,gbc);
+        addButtonAccept(listener,gbc);
+
+    }
+
+    private void addButtonAccept(ActionListener listener, GridBagConstraints gbc){
         getInfoPanel().getButton().setText("Accept");
         getInfoPanel().getButton().setActionCommand("Accept");
         getInfoPanel().getButton().addActionListener(listener);
-        gbc.insets = new Insets(70, 30, 0, 0);
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.insets = new Insets(0, 10, 0, 0);
         getInfoPanel().add(getInfoPanel().getButton(), gbc);
+    }
+
+    private void addButtonGoBack(ActionListener listener, GridBagConstraints gbc){
+        this.goBack = new JButtonUPTC("Go Back");
+        this.goBack.setActionCommand("GoBackChange");
+        this.goBack.addActionListener(listener);
+        gbc.gridwidth = 1;
+        gbc.insets = new Insets(0, 100, 0, 0);
+        getInfoPanel().add(this.goBack,gbc);
     }
 
     public void cleanPanel() {

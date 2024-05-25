@@ -14,9 +14,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JToggleButton;
 
 public class JPasswordUPTC extends JPasswordField {
-    private static final long serialVersionUID = 1L;
-    private JToggleButton showHideButton;
-
     public JPasswordUPTC() {
         setOpaque(false);
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));

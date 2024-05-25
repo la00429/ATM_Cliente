@@ -3,6 +3,7 @@ package co.edu.uptc.view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 public class View {
@@ -10,8 +11,8 @@ public class View {
     private JOptionPane jOptionPane;
     private JFrameSystem frameApp;
 
-    public View(ActionListener listener) {
-        frameApp = new JFrameSystem(listener);
+    public View(ActionListener listener, WindowListener windowListener) {
+        frameApp = new JFrameSystem(listener, windowListener);
     }
 
     public View() {
@@ -26,14 +27,9 @@ public class View {
         System.out.println(message);
     }
 
-    public void showOption(String message) {
-        jOptionPane.showMessageDialog(null,message);
-    }
-
     public String readData(String message){
         return jOptionPane.showInputDialog(message);
     }
-
 
     public void loadCourse(String course) {
         this.getFrameApp().loadCourse(course);
@@ -59,6 +55,21 @@ public class View {
     public void accessToLoginAdmin() {
         getFrameApp().stateAdminPanel(false);
         getFrameApp().stateLoginUser(true);
+    }
+
+    public void goBackChangePassword(){
+        getFrameApp().stateChangePassword(false);
+        getFrameApp().stateLoginUser(true);
+    }
+
+    public void goBackCreateUser(){
+        getFrameApp().stateCreateUser(false);
+        getFrameApp().stateLoginUser(true);
+    }
+
+    public void goBackStyles(){
+        getFrameApp().stateFormStyleLearning(false);
+        getFrameApp().stateCreateUser(true);
     }
 
     public void accessCourse() {
@@ -136,5 +147,7 @@ public class View {
         getFrameApp().getAdminPanel().cleanComboCourses();
     }
 
-
+    public void closeApp(){
+        getFrameApp().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
 }

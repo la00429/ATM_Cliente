@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 
 public class JPanelStart extends JPanel {
-    private static final long serialVersionUID = 1L;
     private JPanelStartLeft imgUser;
     private JPanelStartRight infoPanel;
 

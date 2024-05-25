@@ -18,7 +18,6 @@ public class JPanelStartLeft extends JPanel {
     private JLabel imgUserGrey;
     private JLabel imgUPTC;
     private JButtonTraspUPTC info;
-    public final int radio = 5;
 
     public JPanelStartLeft(ActionListener listener) {
         this.setSize(getMaximumSize());

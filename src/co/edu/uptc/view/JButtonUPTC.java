@@ -5,10 +5,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class JButtonUPTC extends JButton {
-
-    private static final long serialVersionUID = 1L;
-
-
     public JButtonUPTC(String text) {
         super(text);
         setFocusPainted(false);
@@ -20,7 +16,7 @@ public class JButtonUPTC extends JButton {
         setBorderPainted(false);
         setBorder(new EmptyBorder(10, 10, 10, 10));
         setCursor(new Cursor(Cursor.HAND_CURSOR));
-        setPreferredSize(new Dimension(275, 72));
+        setPreferredSize(new Dimension(200, 60));
     }
 
     @Override

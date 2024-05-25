@@ -64,14 +64,13 @@ public class JPanelCourse extends JPanelStart {
 
     private void addNewComponents(ActionListener listener) {
         getImgUser().firstLineUser(96, 88);
-        getImgUser().setInfo("Ayuda");
+        getImgUser().setInfo("Help");
         revalidate();
         repaint();
     }
 
     private void firstLine(GridBagConstraints gbc, ActionListener listener) {
         this.optionsMenu = new JPanel();
-        this.optionsMenu.setPreferredSize(new Dimension(getWidth(), 20));
         this.optionsMenu.setLayout(new GridBagLayout());
         this.optionsMenu.setBackground(new Color(248, 203, 46));
         addButton(gbc, listener);
@@ -107,15 +106,14 @@ public class JPanelCourse extends JPanelStart {
 
     private void thirdLine(GridBagConstraints gbc) {
         this.subTitle = new JTextPaneUPTC();
-        this.subTitle.setColorBack(Color.white);
-        this.subTitle.setPreferredSize(new Dimension(12, 12));
+        this.subTitle.setColorBack(Color.WHITE);
         addTextPane();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.anchor = GridBagConstraints.NORTH;
-        gbc.insets = new Insets(160, 76, 0, 61);
+        gbc.insets = new Insets(160, 76, 10, 61);
         getInfoPanel().add(subTitle, gbc);
     }
 
@@ -125,12 +123,12 @@ public class JPanelCourse extends JPanelStart {
 
     private void fourLine(GridBagConstraints gbc) {
         this.panelCourse = new JPanel();
-        panelCourse = new JPanel(new BorderLayout());
+        this.panelCourse = new JPanel(new BorderLayout());
         this.coursePage = new JPanelCoursePage();
         this.panelCourse.add(coursePage, BorderLayout.CENTER);
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(216, 76, 0, 76);
+        gbc.insets = new Insets(216, 76, 10, 76);
         getInfoPanel().add(panelCourse, gbc);
 
     }
@@ -143,8 +141,7 @@ public class JPanelCourse extends JPanelStart {
         gbc.gridy = 0;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.insets = new Insets(100, 76, 0, 0);
-        getInfoPanel().getTitle().setText("Hola " + this.name.getText());
-        getInfoPanel().getTitle().setPreferredSize(new Dimension(getWidth(), 76));
+        getInfoPanel().getTitle().setText("Hello " + this.name.getText());
         getInfoPanel().getTitle().setFont(new Font("Arial", Font.BOLD, 64));
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;

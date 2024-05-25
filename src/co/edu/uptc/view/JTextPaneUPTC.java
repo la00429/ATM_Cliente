@@ -9,7 +9,6 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.JTextPane;
 
 public class JTextPaneUPTC extends JTextPane {
-    private static final long serialVersionUID = 1L;
     private Color colorBack;
 
     public JTextPaneUPTC() {

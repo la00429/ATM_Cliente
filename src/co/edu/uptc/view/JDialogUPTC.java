@@ -9,7 +9,6 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 public class JDialogUPTC extends JDialog {
-    private static final long serialVersionUID = 1L;
     private JTextPaneUPTC textPane;
 
     public JDialogUPTC(JFrame parent) {

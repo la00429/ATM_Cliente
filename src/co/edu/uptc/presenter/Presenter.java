@@ -13,11 +13,12 @@ import com.google.gson.Gson;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Presenter extends MouseAdapter implements ActionListener {
+public class Presenter implements ActionListener, WindowListener {
 
     private Connection connection;
     private View view;
@@ -27,7 +28,7 @@ public class Presenter extends MouseAdapter implements ActionListener {
         try {
             this.connection = new Connection(host);
             loadProperties();
-            this.view = new View(this);
+            this.view = new View(this, this);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -50,7 +51,6 @@ public class Presenter extends MouseAdapter implements ActionListener {
             connection.send(new Gson().toJson(new Request("Load_Courses")));
             Responsive response = new Gson().fromJson(connection.receive(), Responsive.class);
             view.loadNameCourses((ArrayList<String>) response.getCourseNames());
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -68,7 +68,6 @@ public class Presenter extends MouseAdapter implements ActionListener {
 
     private void loadGender() {
         view.getFrameApp().loadComboGender(loadData.readTxt(Message.PATH_GENDER));
-
     }
 
     public void start() {
@@ -83,66 +82,65 @@ public class Presenter extends MouseAdapter implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         try {
         String source = e.getActionCommand();
-        if (source.equals("Login")) {
-            verificationLogin();
-        }
-
-        if (source.equals("Forgot")) {
-            forgotPassword();
-        }
-
-        if (source.equals("Next")) {
-            createUserData();
-        }
-
-        if (source.equals("Record")) {
-            loadDataCourse();
-        }
-
-        if (source.equals("Accept")) {
-            updatePanelChangePasswaord();
-        }
-
-        if (source.equals("Create")) {
-            changeToCreateUser();
-        }
-
-            if (source.equals("BlockUser")) {
-                blockUser();
+            switch (source) {
+                case "Login":
+                    verificationLogin();
+                    break;
+                case "Forgot":
+                    forgotPassword();
+                    break;
+                case "Next":
+                    createUserData();
+                    break;
+                case "Record":
+                    loadDataCourse();
+                    break;
+                case "Accept":
+                    updatePanelChangePasswaord();
+                    break;
+                case "Create":
+                    changeToCreateUser();
+                    break;
+                case "BlockUser":
+                    blockUser();
+                    break;
+                case "UnblockUser":
+                    unblockUser();
+                    break;
+                case "BlockCourse":
+                    blockCourse();
+                    break;
+                case "UnblockCourse":
+                    unblockCourse();
+                    break;
+                case "Logout":
+                    logOutSystem();
+                    break;
+                case "GoBackChange":
+                    goBackChangePassword();
+                    break;
+                case "GoBackCreate":
+                    goBackCreateUser();
+                    break;
+                case "GoBackCourses":
+                    goBackStyles();
+                    break;
+                case "LogoutAdmin":
+                    logOutSystemAdmin();
+                    break;
+                case "Help":
+                    showData(Message.HELP);
+                    break;
+                case "Us":
+                    showData(Message.ABOUT_US);
+                    break;
             }
-
-            if (source.equals("UnblockUser")) {
-                unblockUser();
-            }
-
-            if (source.equals("BlockCourse")) {
-                blockCourse();
-            }
-
-            if (source.equals("UnblockCourse")) {
-                unblockCourse();
-            }
-
-        if (source.equals("Logout")) {
-            logOutSystem();
-        }
-
-            if (source.equals("LogoutAdmin")) {
-                logOutSystemAdmin();
-            }
-
-        if (source.equals("Help")) {
-            showData(Message.HELP);
-        }
-
-        if (source.equals("Us")) {
-            showData(Message.ABOUT_US);
-
-        }
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
+
+
 
 
     private void establishConnection() throws IOException {
@@ -179,7 +177,15 @@ public class Presenter extends MouseAdapter implements ActionListener {
         if (verification) {
             loginAcess(codeUser, typeUser);
         } else {
-            loginMessage(codeUser, passwordUser);
+            loginMessageShowUser(codeUser, passwordUser);
+        }
+    }
+
+    private void loginMessageShowUser(String codeUser, String passwordUser) throws IOException {
+        if (codeUser.isEmpty() || passwordUser.isEmpty()) {
+            showData(Message.ERROR_NULL);
+        } else {
+            showData(Message.ERROR_NO_FOUND);
         }
     }
 
@@ -201,12 +207,20 @@ public class Presenter extends MouseAdapter implements ActionListener {
         } else {
             connection.send(new Gson().toJson(new Request("Exist_User", code, 1)));
             Responsive response = new Gson().fromJson(connection.receive(), Responsive.class);
-            if (response.getVerification()){
-                showData(Message.ERROR_TWIN);
-            } else {
-                createUserNext();
-            }
+            loadMessageCreateUser(response);
         }
+    }
+
+    private void loadMessageCreateUser(Responsive response){
+        if (response.getVerification()){
+            showData(Message.ERROR_TWIN);
+        } else {
+            createUserNext();
+        }
+    }
+
+    private void createUserNext() {
+        view.accessForm();
     }
 
     public void logOutSystem() {
@@ -215,6 +229,18 @@ public class Presenter extends MouseAdapter implements ActionListener {
 
     private void logOutSystemAdmin() {
         view.accessToLoginAdmin();
+    }
+
+    private void goBackChangePassword() {
+        view.goBackChangePassword();
+    }
+
+    private void goBackCreateUser() {
+        view.goBackCreateUser();
+    }
+
+    private void goBackStyles() {
+        view.goBackStyles();
     }
 
     public void changeToCreateUser() {
@@ -275,18 +301,25 @@ public class Presenter extends MouseAdapter implements ActionListener {
     private void loadCourse(String courseSelect, String nameUser) throws IOException {
         connection.send(new Gson().toJson(new Request("Show_Course_CourseName", courseSelect, 2)));
         Responsive response = new Gson().fromJson(connection.receive(), Responsive.class);
-        if (!response.getMessage().isEmpty()) {
-            view.loadCourse(response.getMessage());
-            view.getFrameApp().setNameUser(nameUser);
-            view.accessCourseCreate();
+        if (!response.getMessage().isEmpty()&& response.getMessage()!=null) {
+           loadCourse(response, nameUser);
         } else {
-            view.showData(Message.ERROR_COURSE_NOT_AVAILABLE);
-            view.loadCourse(response.getMessage());
-            view.getFrameApp().setNameUser(nameUser);
-            view.accessCourseCreate();
+            loadCourseError(response, nameUser);
 
         }
+    }
 
+    private void loadCourse(Responsive response,String nameUser){
+        view.loadCourse(response.getMessage());
+        view.getFrameApp().setNameUser(nameUser);
+        view.accessCourseCreate();
+    }
+
+    private void loadCourseError(Responsive response, String nameUser ){
+        view.showData(Message.ERROR_COURSE_NOT_AVAILABLE);
+        view.loadCourse(response.getMessage());
+        view.getFrameApp().setNameUser(nameUser);
+        view.accessCourseCreate();
     }
 
     private void getDataUser() throws IOException {
@@ -301,6 +334,10 @@ public class Presenter extends MouseAdapter implements ActionListener {
     private void loadDataUser(String name,String gender,String styleLearning,  String code, String password ) throws IOException {
         connection.send(new Gson().toJson(new Request("Add_User", new Student(name,gender,styleLearning, new User(code, password)))));
         Responsive response = new Gson().fromJson(connection.receive(), Responsive.class);
+        showMessageAddUser(response);
+    }
+
+    public void showMessageAddUser(Responsive response ){
         if (response.getVerification()) {
             showData(Message.MESSAGE_SUCCESS);
         } else {
@@ -309,39 +346,40 @@ public class Presenter extends MouseAdapter implements ActionListener {
         }
     }
 
-    private void createUserNext() {
-        view.accessForm();
-    }
-
     private void loginAcess(String codeUser,String typeUser) throws IOException {
         switch (typeUser) {
             case "ADMIN":
-                view.getFrameApp().stateLoginUser(false);
-                showName(codeUser, typeUser);
-                view.accessAdminPanel();
-                view.cleanPanelLogin();
+                acessAdmin(codeUser, typeUser);
                 break;
             case "student":
-                view.getFrameApp().stateLoginUser(false);
-                showName(codeUser, typeUser);
-                selectCourse(codeUser);
-                view.accessCourse();
-                view.cleanPanelLogin();
+                acessStudent(codeUser, typeUser);
                 break;
         }
     }
 
-    private void loginMessage(String codeUser, String passwordUser) throws IOException {
-        if (codeUser.isEmpty() || passwordUser.isEmpty()) {
-            showData(Message.ERROR_NULL);
-        } else {
-            showData(Message.ERROR_NO_FOUND);
-        }
+    private void acessAdmin(String codeUser,String typeUser) throws IOException {
+        view.getFrameApp().stateLoginUser(false);
+        showName(codeUser, typeUser);
+        view.accessAdminPanel();
+        view.cleanPanelLogin();
     }
+
+    private void acessStudent(String codeUser,String typeUser) throws IOException {
+        view.getFrameApp().stateLoginUser(false);
+        showName(codeUser, typeUser);
+        selectCourse(codeUser);
+        view.accessCourse();
+        view.cleanPanelLogin();
+    }
+
 
     private void selectCourse(String codeUser) throws IOException {
         connection.send(new Gson().toJson(new Request("Show_Course_CodeUser", codeUser, 1)));
         Responsive response = new Gson().fromJson(connection.receive(), Responsive.class);
+        loadCoursePage(response);
+    }
+
+    private void loadCoursePage(Responsive response){
         if (!response.getMessage().isEmpty() && !response.getMessage().equals("null")) {
             view.getFrameApp().getCourse().getWebCourse().loadPage(response.getMessage());
         }else{
@@ -365,16 +403,19 @@ public class Presenter extends MouseAdapter implements ActionListener {
         try {
             connection.send(new Gson().toJson(new Request("Block_User", codeUser, 1)));
             Responsive response = new Gson().fromJson(connection.receive(), Responsive.class);
-            if (response.getVerification()) {
-                showData(Message.MESSAGE_BLOCK_USER);
-            } else {
-                showData(Message.MESSAGE_ERROR_BLOCK_USER);
-            }
+            showMessageBlockUser(response);
             view.cleanAdminPanelUsers();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    private void showMessageBlockUser(Responsive response){
+        if (response.getVerification()) {
+            showData(Message.MESSAGE_BLOCK_USER);
+        } else {
+            showData(Message.MESSAGE_ERROR_BLOCK_USER);
+        }
     }
 
     private void unblockUser() {
@@ -382,47 +423,58 @@ public class Presenter extends MouseAdapter implements ActionListener {
         try {
             connection.send(new Gson().toJson(new Request("Unblock_User", codeUser, 1)));
             Responsive response = new Gson().fromJson(connection.receive(), Responsive.class);
-            if (response.getVerification()) {
-                showData(Message.MESSAGE_UNBLOCK_USER);
-            } else {
-                showData(Message.MESSAGE_ERROR_UNBLOCK_USER);
-            }
+            showMessageUnBlockUser(response);
             view.cleanAdminPanelUsers();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    private void showMessageUnBlockUser(Responsive response){
+        if (response.getVerification()) {
+            showData(Message.MESSAGE_UNBLOCK_USER);
+        } else {
+            showData(Message.MESSAGE_ERROR_UNBLOCK_USER);
+        }
+    }
+
     private void blockCourse() {
         String courseName = view.getFrameApp().getAdminPanel().getSelectedCourse();
         try {
-            connection.send(new Gson().toJson(new Request("Block_Course", courseName, 1)));
+            connection.send(new Gson().toJson(new Request("Block_Course", courseName, 2)));
             Responsive response = new Gson().fromJson(connection.receive(), Responsive.class);
-            if (response.getVerification()) {
-                showData(Message.MESSAGE_BLOCK_COURSE);
-            } else {
-                showData(Message.MESSAGE_ERROR_BLOCK_COURSE);
-            }
+            showMessageBlockCourse(response);
             view.cleanAdminPanelCourses();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    private void showMessageBlockCourse(Responsive response){
+        if (response.getVerification()) {
+            showData(Message.MESSAGE_BLOCK_COURSE);
+        } else {
+            showData(Message.MESSAGE_ERROR_BLOCK_COURSE);
+        }
     }
 
     private void unblockCourse() {
         String courseName = view.getFrameApp().getAdminPanel().getSelectedCourse();
         try {
-            connection.send(new Gson().toJson(new Request("Unblock_Course", courseName, 1)));
+            connection.send(new Gson().toJson(new Request("Unblock_Course", courseName, 2)));
             Responsive response = new Gson().fromJson(connection.receive(), Responsive.class);
-            if (response.getVerification()) {
-                showData(Message.MESSAGE_UNBLOCK_COURSE);
-            } else {
-                showData(Message.MESSAGE_ERROR_UNBLOCK_COURSE);
-            }
+            messagesUnLockCourse(response);
             view.cleanAdminPanelCourses();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void messagesUnLockCourse(Responsive response){
+        if (response.getVerification()) {
+            showData(Message.MESSAGE_UNBLOCK_COURSE);
+        } else {
+            showData(Message.MESSAGE_ERROR_UNBLOCK_COURSE);
         }
     }
 
@@ -430,4 +482,45 @@ public class Presenter extends MouseAdapter implements ActionListener {
         view.showData(message);
     }
 
+    @Override
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        try {
+            connection.send(new Gson().toJson(new Request("Disconnect")));
+            view.showMessage(new Gson().fromJson(connection.receive(), Responsive.class).getMessage());
+            connection.disconnect();
+            System.exit(0);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+
+    }
 }

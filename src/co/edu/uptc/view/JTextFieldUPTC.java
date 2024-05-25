@@ -12,7 +12,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JTextField;
 
 public class JTextFieldUPTC extends JTextField {
-    private static final long serialVersionUID = 1L;
 
     public JTextFieldUPTC() {
         setOpaque(false);

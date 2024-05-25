@@ -14,6 +14,7 @@ public class JPanelCreateUser extends JPanelStart {
     private JComboBox<String> genderInput;
     private JLabel password;
     private JPasswordUPTC passwordInput;
+    private JButtonUPTC goBack;
 
     public JPanelCreateUser(ActionListener listener) {
         super(listener);
@@ -113,6 +114,20 @@ public class JPanelCreateUser extends JPanelStart {
     }
 
     private void tenLine(ActionListener listener, GridBagConstraints gbc) {
+        addButtonGoBack(listener,gbc);
+        addButtonNext(listener,gbc);
+    }
+
+    private void addButtonGoBack(ActionListener listener, GridBagConstraints gbc) {
+        this.goBack = new JButtonUPTC("Go Back");
+        this.goBack.setActionCommand("GoBackCreate");
+        this.goBack.addActionListener(listener);
+        gbc.gridwidth = 1;
+        gbc.insets = new Insets(30, 30, 0, 0);
+        getInfoPanel().add(this.goBack,gbc);
+    }
+
+    private void addButtonNext(ActionListener listener, GridBagConstraints gbc) {
         getInfoPanel().getButton().setText("Next");
         getInfoPanel().getButton().setActionCommand("Next");
         getInfoPanel().getButton().addActionListener(listener);
@@ -121,6 +136,8 @@ public class JPanelCreateUser extends JPanelStart {
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         getInfoPanel().add(getInfoPanel().getButton(), gbc);
     }
+
+
 
     public void loadComboBoxGender(ArrayList<String> items) {
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
