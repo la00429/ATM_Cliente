@@ -86,6 +86,10 @@ public class View {
         this.getFrameApp().getAdminPanel().setNameUser(name);
     }
 
+    public void loadCountCourse(String count) {
+        this.getFrameApp().getAdminPanel().setCountStudents(count);
+    }
+
     public void accessCreate() {
         getFrameApp().stateLoginUser(false);
         getFrameApp().stateCreateUser(true);
@@ -145,9 +149,5 @@ public class View {
 
     public void cleanAdminPanelCourses() {
         getFrameApp().getAdminPanel().cleanComboCourses();
-    }
-
-    public void closeApp(){
-        getFrameApp().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

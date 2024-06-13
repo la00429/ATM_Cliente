@@ -56,11 +56,11 @@ public class Presenter implements ActionListener, WindowListener {
         }
     }
 
-    public void loadUsers() {
+    private void loadUsers() {
         try {
             connection.send(new Gson().toJson(new Request("Load_Users")));
             Responsive response = new Gson().fromJson(connection.receive(), Responsive.class);
-            view.getFrameApp().loadComboUsers((ArrayList<String>) response.getCodeStudents());
+            view.loadUsers((ArrayList<String>) response.getCodeStudents());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -113,6 +113,9 @@ public class Presenter implements ActionListener, WindowListener {
                 case "UnblockCourse":
                     unblockCourse();
                     break;
+                case "CountStudents":
+                    showCountCourse();
+                    break;
                 case "Logout":
                     logOutSystem();
                     break;
@@ -153,7 +156,7 @@ public class Presenter implements ActionListener, WindowListener {
         }
     }
 
-    public void verificationLogin() {
+    private void verificationLogin() {
         String codeUser = view.getFrameApp().getLoginUser().getUserInput();
         String passwordUser = view.getFrameApp().getLoginUser().getPasswordInput();
         try {
@@ -189,11 +192,11 @@ public class Presenter implements ActionListener, WindowListener {
         }
     }
 
-    public void forgotPassword() {
+    private void forgotPassword() {
         view.accessChange();
     }
 
-    public void createUserData() throws IOException {
+    private void createUserData() throws IOException {
         String name = view.getFrameApp().getCreateUser().getName();
         String gender = view.getFrameApp().getCreateUser().getSelectedGender();
         String code = view.getFrameApp().getCreateUser().getCode();
@@ -223,7 +226,7 @@ public class Presenter implements ActionListener, WindowListener {
         view.accessForm();
     }
 
-    public void logOutSystem() {
+    private void logOutSystem() {
         view.accessToLogin();
     }
 
@@ -243,11 +246,11 @@ public class Presenter implements ActionListener, WindowListener {
         view.goBackStyles();
     }
 
-    public void changeToCreateUser() {
+    private void changeToCreateUser() {
         view.accessCreate();
     }
 
-    public void updatePanelChangePasswaord() throws IOException {
+    private void updatePanelChangePasswaord() throws IOException {
         String codeUser = view.getFrameApp().getChangePassword().getUserInput();
         String passwordUserNew = view.getFrameApp().getChangePassword().getPasswordInput();
         if (!codeUser.isEmpty() && !passwordUserNew.isEmpty()) {
@@ -286,7 +289,7 @@ public class Presenter implements ActionListener, WindowListener {
 
     }
 
-    public void loadDataCourse() throws IOException {
+    private void loadDataCourse() throws IOException {
         getDataCourse();
         getDataUser();
         view.cleanCreateUser();
@@ -337,7 +340,7 @@ public class Presenter implements ActionListener, WindowListener {
         showMessageAddUser(response);
     }
 
-    public void showMessageAddUser(Responsive response ){
+    private void showMessageAddUser(Responsive response) {
         if (response.getVerification()) {
             showData(Message.MESSAGE_SUCCESS);
         } else {
@@ -470,6 +473,16 @@ public class Presenter implements ActionListener, WindowListener {
         }
     }
 
+    private void showCountCourse() {
+        try {
+            connection.send(new Gson().toJson(new Request("Show_Count_Course",view.getFrameApp().getAdminPanel().getSelectedCourse(),2)));
+            Responsive response = new Gson().fromJson(connection.receive(), Responsive.class);
+            view.loadCountCourse(response.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void messagesUnLockCourse(Responsive response){
         if (response.getVerification()) {
             showData(Message.MESSAGE_UNBLOCK_COURSE);
@@ -478,7 +491,7 @@ public class Presenter implements ActionListener, WindowListener {
         }
     }
 
-    public void showData(String message) {
+    private void showData(String message) {
         view.showData(message);
     }
 

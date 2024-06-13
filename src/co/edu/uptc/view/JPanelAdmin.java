@@ -20,10 +20,15 @@ public class JPanelAdmin extends JPanelStart {
     private JComboBoxUPTC comboBoxCourses;
     private JButtonUPTC blockCourse;
     private JButtonUPTC unblockCourse;
+    private JLabel countStudents;
+    private JLabel titleCount;
+    private ActionListener listener;
 
     public JPanelAdmin(ActionListener listener) {
+
         super(listener);
         initComponents2(listener);
+        this.listener = listener;
         this.setVisible(false);
     }
 
@@ -128,6 +133,7 @@ public class JPanelAdmin extends JPanelStart {
         addButtonUnblockUser(listener, gbc);
         addButtonBlockCourse(listener, gbc);
         addButtonUnblockCourse(listener, gbc);
+        addCountStudents(gbc);
     }
 
     public void setNameUser(String text) {
@@ -206,6 +212,7 @@ public class JPanelAdmin extends JPanelStart {
         gbc.gridy = 1;
         gbc.insets = new Insets(200, 700, 0, 236);
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
         getInfoPanel().add(blockCourse, gbc);
     }
 
@@ -218,6 +225,24 @@ public class JPanelAdmin extends JPanelStart {
         gbc.insets = new Insets(250, 700, 10, 236);
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         getInfoPanel().add(unblockCourse, gbc);
+    }
+
+    public void addCountStudents(GridBagConstraints gbc){
+        this.countStudents = new JLabel();
+        this.titleCount = new JLabel();
+        this.titleCount.setText("Count Students: ");
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.insets = new Insets(400, 700, 10, 236);
+        getInfoPanel().add(titleCount, gbc);
+        gbc.gridx =0;
+        gbc.gridy = 1;
+        gbc.insets = new Insets(400, 800, 10, 236);
+        getInfoPanel().add(countStudents, gbc);
+    }
+
+    public void setCountStudents(String count){
+        this.countStudents.setText(count);
     }
 
     public void loadComboBoxUsers(ArrayList<String> items) {
@@ -235,6 +260,8 @@ public class JPanelAdmin extends JPanelStart {
         for (String item : items) {
             model.addElement(item);
         }
+        this.comboBoxCourses.setActionCommand("CountStudents");
+        this.comboBoxCourses.addActionListener(this.listener);
         this.comboBoxCourses.setModel(model);
     }
 
